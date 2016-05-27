@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Produtos</title>
+    </h:head>
+    <h:body>
+        <h:form id="formProd">
+            <p:commandButton value="Cadastrar" oncomplete="PF('WidCadastrar').show()" />
+            
+            <p:dataTable id="tableProd" value="#{ProdutoBean.recuperarTodos()}" var="item" paginator="false"
+                         rowKey="#{item.codigo}" selectionMode="single">
+                <f:facet name="header">
+                    Produtos Cadastrados
+                </f:facet>
+                
+                <p:column headerText="Codigo">
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{item.nome}"/>
+                </p:column>
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{item.descricao}"/>
+                </p:column>
+                <p:column headerText="Marca">
+                    <h:outputText value="#{item.marca}"/>
+                </p:column>
+                <p:column headerText="Acões">
+                    <p:commandButton icon="ui-icon-trash" oncomplete="PF('WidDial').show()">
+                        <f:setPropertyActionListener target="#{ProdutoBean.produtoSelected}" value="item"/>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('WidAltera').show()">
+                        <f:setPropertyActionListener target="#{ProdutoBean.produtoSelected}" value="item"/>
+                    </p:commandButton>
+                </p:column>
+            
+            </p:dataTable>
+            
+            <p:confirmDialog id="WidDial" visible="false" message="Deseja realmente excluir esse produto" widgetVar="WidDial">
+                <p:commandButton value="Sim" action="#{ProdutoBean.deletar(ProdutoBean.produtoSelected)}" 
+                                 oncomplete="PF('WidDial').hide()" update="formProd"/>
+                <p:commandButton value="Não" oncomplete="PF('WidDial').hide()"/>
+            </p:confirmDialog>
+        </h:form>
+        
+            <p:dialog id="dialAltera" resizable="false" visible="false" modal="true" widgetVar="WidAltera">
+                <h:form>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Codigo:"/>
+                        <h:outputText value="#{ProdutoBean.produtoSelected.codigo}"/>
+                        
+                        <h:outputText value="Nome:"/>
+                        <p:inputText value="#{ProdutoBean.produtoSelected.nome}"/>
+                        
+                        <h:outputText value="Descrição:"/>
+                        <p:inputText value="#{ProdutoBean.produtoSelected.descricao}"/>
+                        
+                        <h:outputText value="Marca"/>
+                        <p:inputText value="#{ProdutoBean.produtoSelected.marca}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="Alterar" action="#{ProdutoBean.alterar(ProdutoBean.produtoSelected)}" 
+                                     oncomplete="PF('WidAltera').hide()"/>
+                    <p:commandButton value="Cancelar" oncomplete="PF('WidAltera').hide()"/>
+                </h:form>
+            </p:dialog>
+            
+            <p:dialog id="dialCadastra" resizable="false" visible="false" modal="true" widgetVar="WidCadastrar">
+                <h:form>
+                <p:panelGrid columns="2">
+                    
+                    <h:outputText value="Codigo:"/>
+                    <p:inputText value="#{ProdutoBean.produtoSelected.codigo}"/>
+                    
+                    <h:outputText value="Nome:"/>
+                    <p:inputText value="#{ProdutoBean.produtoSelected.nome}"/>
+                    
+                    <h:outputText value="Descrição:"/>
+                    <p:inputText value="#{ProdutoBean.produtoSelected.descricao}"/>
+                    
+                    <h:outputText value="Marca:"/>
+                    <p:inputText value="#{ProdutoBean.produtoSelected.marca}"/>
+
+                </p:panelGrid>
+                    <p:commandButton value="cadastrar" action="#{ProdutoBean.inserir(ProdutoBean.produtoSelected)}"
+                                     oncomplete="location.href='ProdutoView.xhtml'"/>
+                    <p:commandButton value="cancelar" oncomplete="PF('widCadastra').hide()"/>
+            </h:form>
+            </p:dialog>
+            
+        
+            
+    </h:body>
+</html>
+
