@@ -20,6 +20,13 @@ import javax.faces.bean.SessionScoped;
 public class ClienteController implements ControllerGenerico<Cliente, Long>{
 
     private Cliente clienteSelected;
+    private Cliente cliente;
+
+    public ClienteController() {
+        cliente = new Cliente();
+    }
+    
+    
 
     public Cliente getClienteSelected() {
         return clienteSelected;
@@ -27,6 +34,14 @@ public class ClienteController implements ControllerGenerico<Cliente, Long>{
 
     public void setClienteSelected(Cliente clienteSelected) {
         this.clienteSelected = clienteSelected;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     

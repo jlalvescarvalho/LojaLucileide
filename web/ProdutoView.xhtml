@@ -1,11 +1,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Produtos</title>
     </h:head>
     <h:body>
+        <ui:include src="Menu.xhtml"/>
+        
         <h:form id="formProd">
             <p:commandButton value="Cadastrar" oncomplete="PF('WidCadastrar').show()" />
             
@@ -27,12 +30,15 @@
                 <p:column headerText="Marca">
                     <h:outputText value="#{item.marca}"/>
                 </p:column>
+                <p:column headerText="Preço">
+                    <h:outputText value="#{item.preco}"/>
+                </p:column>
                 <p:column headerText="Acões">
                     <p:commandButton icon="ui-icon-trash" oncomplete="PF('WidDial').show()">
-                        <f:setPropertyActionListener target="#{ProdutoBean.produtoSelected}" value="item"/>
+                        <f:setPropertyActionListener target="#{ProdutoBean.produtoSelected}" value="#{item}"/>
                     </p:commandButton>
-                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('WidAltera').show()">
-                        <f:setPropertyActionListener target="#{ProdutoBean.produtoSelected}" value="item"/>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('WidAltera').show()" update=":dialAltera">
+                        <f:setPropertyActionListener target="#{ProdutoBean.produtoSelected}" value="#{item}"/>
                     </p:commandButton>
                 </p:column>
             
@@ -59,9 +65,12 @@
                         
                         <h:outputText value="Marca"/>
                         <p:inputText value="#{ProdutoBean.produtoSelected.marca}"/>
+                        
+                        <h:outputText value="Preço"/>
+                        <p:inputText value="#{ProdutoBean.produtoSelected.preco}"/>
                     </p:panelGrid>
                     <p:commandButton value="Alterar" action="#{ProdutoBean.alterar(ProdutoBean.produtoSelected)}" 
-                                     oncomplete="PF('WidAltera').hide()"/>
+                                     oncomplete="PF('WidAltera').hide()" update=":formProd"/>
                     <p:commandButton value="Cancelar" oncomplete="PF('WidAltera').hide()"/>
                 </h:form>
             </p:dialog>
@@ -71,22 +80,26 @@
                 <p:panelGrid columns="2">
                     
                     <h:outputText value="Codigo:"/>
-                    <p:inputText value="#{ProdutoBean.produtoSelected.codigo}"/>
+                    <p:inputText value="#{ProdutoBean.prodCad.codigo}"/>
                     
                     <h:outputText value="Nome:"/>
-                    <p:inputText value="#{ProdutoBean.produtoSelected.nome}"/>
+                    <p:inputText value="#{ProdutoBean.prodCad.nome}"/>
                     
                     <h:outputText value="Descrição:"/>
-                    <p:inputText value="#{ProdutoBean.produtoSelected.descricao}"/>
+                    <p:inputText value="#{ProdutoBean.prodCad.descricao}"/>
                     
                     <h:outputText value="Marca:"/>
-                    <p:inputText value="#{ProdutoBean.produtoSelected.marca}"/>
+                    <p:inputText value="#{ProdutoBean.prodCad.marca}"/>
+                    
+                    <h:outputText value="Preço:"/>
+                    <p:inputText value="#{ProdutoBean.prodCad.preco}"/>
+                   
 
                 </p:panelGrid>
-                    <p:commandButton value="cadastrar" action="#{ProdutoBean.inserir(ProdutoBean.produtoSelected)}"
+                    <p:commandButton value="cadastrar" action="#{ProdutoBean.inserir(ProdutoBean.prodCad)}"
                                      oncomplete="location.href='ProdutoView.xhtml'"/>
-                    <p:commandButton value="cancelar" oncomplete="PF('widCadastra').hide()"/>
-            </h:form>
+                    <p:commandButton value="Cancelar" oncomplete="PF('widCadastrar').hide()"/>
+                </h:form>
             </p:dialog>
             
         

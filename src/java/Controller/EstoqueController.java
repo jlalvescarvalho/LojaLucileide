@@ -8,18 +8,42 @@ package Controller;
 import Model.DaoManagerHiber;
 import Model.Estoque;
 import java.util.List;
-import javax.annotation.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author Luciano
  */
-@ManagedBean
+@ManagedBean(name = "EstoqueBean")
 @SessionScoped
 public class EstoqueController implements ControllerGenerico<Estoque, Long>{
 
-    private Estoque estoque = null;
+    private Estoque estoque;
+    private Estoque PSelected;
+
+    public EstoqueController() {
+        this.estoque = new Estoque();
+    }
+
+    
+    public Estoque getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        this.estoque = estoque;
+    }
+
+    public Estoque getPSelected() {
+        return PSelected;
+    }
+
+    public void setPSelected(Estoque PSelected) {
+        this.PSelected = PSelected;
+    }
+    
+    
     
     @Override
     public void inserir(Estoque estoque) {
@@ -32,8 +56,8 @@ public class EstoqueController implements ControllerGenerico<Estoque, Long>{
     }
 
     @Override
-    public List recuperarTodos() {
-       return DaoManagerHiber.getInstance().recoverAll("from estoque");
+    public List<Estoque> recuperarTodos() {
+       return DaoManagerHiber.getInstance().recoverAll("from Estoque");
     }
 
     @Override

@@ -31,14 +31,18 @@ public class Produto{
     private String Descricao;
     @Column(name = "Marca")
     private String Marca;
+    @Column(name = "Preco")
+    private double preco= 0.0;
 
-    public Produto(int id, long Codigo, String Nome, String Descricao, String Marca) {
+    public Produto(int id, long Codigo, String Nome, String Descricao, String Marca, double preco) {
         this.id = id;
         this.Codigo = Codigo;
         this.Nome = Nome;
         this.Descricao = Descricao;
         this.Marca = Marca;
+        this.preco = preco;
     }
+
     @Deprecated
     public Produto() {
     }
@@ -82,6 +86,14 @@ public class Produto{
     public void setMarca(String Marca) {
         this.Marca = Marca;
     }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
     
-    
+   
 }

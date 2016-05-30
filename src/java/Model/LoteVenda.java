@@ -6,9 +6,12 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -16,22 +19,29 @@ import javax.persistence.TemporalType;
  *
  * @author Luciano
  */
-@Entity(name = "loteVenda")
+@Entity(name = "LoteVenda")
 public class LoteVenda {
+    
     @Id
     @GeneratedValue
     private int Id;
-    
+    @Column
     private long Codigo;
     @Temporal(value = TemporalType.DATE)
     private Date Data;
-    private String Fiado_Avista;
+    @Column
+    private String Fiado;
+    @Column
+    private String Avista;
+    @OneToOne
+    private Cliente cliente;
 
-    public LoteVenda(int Id, long Codigo, Date Data, String Fiado_Avista) {
+    public LoteVenda(int Id, long Codigo, Date Data, String Fiado, String Avista) {
         this.Id = Id;
         this.Codigo = Codigo;
         this.Data = Data;
-        this.Fiado_Avista = Fiado_Avista;
+        this.Fiado = Fiado;
+        this.Avista = Avista;
     }
     
     @Deprecated
@@ -62,13 +72,31 @@ public class LoteVenda {
         this.Data = Data;
     }
 
-    public String getFiado_Avista() {
-        return Fiado_Avista;
+    public String getFiado() {
+        return Fiado;
     }
 
-    public void setFiado_Avista(String Fiado_Avista) {
-        this.Fiado_Avista = Fiado_Avista;
+    public void setFiado(String Fiado) {
+        this.Fiado = Fiado;
     }
+
+    public String getAvista() {
+        return Avista;
+    }
+
+    public void setAvista(String Avista) {
+        this.Avista = Avista;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    
     
     
 }

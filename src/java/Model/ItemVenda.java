@@ -8,6 +8,7 @@ package Model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -18,17 +19,20 @@ public class ItemVenda {
     @Id
     @GeneratedValue
     private int Id;
-    
-    private int Item;
+   
     private long Codigo;
-    private String Nome;
+    private String Descricao;
+    private int Quantidade;
     private double Valor;
+    @ManyToOne
+    private Produto produto;
+    @ManyToOne
+    private LoteVenda loteVenda;
 
     public ItemVenda(int Id, int Item, long Codigo, String Nome, double Valor) {
         this.Id = Id;
-        this.Item = Item;
         this.Codigo = Codigo;
-        this.Nome = Nome;
+        this.Descricao = Nome;
         this.Valor = Valor;
     }
     
@@ -44,14 +48,6 @@ public class ItemVenda {
         this.Id = Id;
     }
 
-    public int getItem() {
-        return Item;
-    }
-
-    public void setItem(int Item) {
-        this.Item = Item;
-    }
-
     public long getCodigo() {
         return Codigo;
     }
@@ -60,12 +56,12 @@ public class ItemVenda {
         this.Codigo = Codigo;
     }
 
-    public String getNome() {
-        return Nome;
+    public String getDescricao() {
+        return Descricao;
     }
 
-    public void setNome(String Nome) {
-        this.Nome = Nome;
+    public void setDescricao(String Nome) {
+        this.Descricao = Nome;
     }
 
     public double getValor() {
@@ -74,6 +70,30 @@ public class ItemVenda {
 
     public void setValor(double Valor) {
         this.Valor = Valor;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public LoteVenda getLoteVenda() {
+        return loteVenda;
+    }
+
+    public void setLoteVenda(LoteVenda loteVenda) {
+        this.loteVenda = loteVenda;
+    }
+
+    public int getQuantidade() {
+        return Quantidade;
+    }
+
+    public void setQuantidade(int Quantidade) {
+        this.Quantidade = Quantidade;
     }
     
     

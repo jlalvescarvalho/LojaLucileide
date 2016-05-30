@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,6 +32,8 @@ public class Cliente implements Serializable{
     private long Rg;
     @Temporal(value = TemporalType.DATE)
     private Date DtNasc;
+    @OneToOne
+    private Endereco endereco;
 
     public Cliente(int Id, long Cpf_Cnpj, String Nome, String Apelido, String Genero, long Rg, Date DtNasc) {
         this.Id = Id;
@@ -99,6 +102,14 @@ public class Cliente implements Serializable{
 
     public void setDtNasc(Date DtNasc) {
         this.DtNasc = DtNasc;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
     
     
