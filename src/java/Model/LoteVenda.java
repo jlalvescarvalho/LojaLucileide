@@ -7,10 +7,13 @@ package Model;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,19 +36,14 @@ public class LoteVenda {
     private String Fiado;
     @Column
     private String Avista;
+    
     @OneToOne
     private Cliente cliente;
+    @OneToMany
+    private List<ItemVenda> itensVenda;
 
-    public LoteVenda(int Id, long Codigo, Date Data, String Fiado, String Avista) {
-        this.Id = Id;
-        this.Codigo = Codigo;
-        this.Data = Data;
-        this.Fiado = Fiado;
-        this.Avista = Avista;
-    }
     
-    @Deprecated
-    public LoteVenda() {
+   public LoteVenda() {
     }
 
     public int getId() {

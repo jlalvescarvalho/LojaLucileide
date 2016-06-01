@@ -21,9 +21,6 @@
                 <p:column headerText="Codigo">
                     <h:outputText value="#{item.codigo}"/>
                 </p:column>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{item.nome}"/>
-                </p:column>
                 <p:column headerText="Descrição">
                     <h:outputText value="#{item.descricao}"/>
                 </p:column>
@@ -56,10 +53,7 @@
                     <p:panelGrid columns="2">
                         <h:outputText value="Codigo:"/>
                         <h:outputText value="#{ProdutoBean.produtoSelected.codigo}"/>
-                        
-                        <h:outputText value="Nome:"/>
-                        <p:inputText value="#{ProdutoBean.produtoSelected.nome}"/>
-                        
+
                         <h:outputText value="Descrição:"/>
                         <p:inputText value="#{ProdutoBean.produtoSelected.descricao}"/>
                         
@@ -80,25 +74,22 @@
                 <p:panelGrid columns="2">
                     
                     <h:outputText value="Codigo:"/>
-                    <p:inputText value="#{ProdutoBean.prodCad.codigo}"/>
-                    
-                    <h:outputText value="Nome:"/>
-                    <p:inputText value="#{ProdutoBean.prodCad.nome}"/>
-                    
+                    <p:inputText value="#{bProduto.codigo}"/>
+ 
                     <h:outputText value="Descrição:"/>
-                    <p:inputText value="#{ProdutoBean.prodCad.descricao}"/>
+                    <p:inputText value="#{bProduto.descricao}"/>
                     
                     <h:outputText value="Marca:"/>
-                    <p:inputText value="#{ProdutoBean.prodCad.marca}"/>
+                    <p:inputText value="#{bProduto.marca}"/>
                     
                     <h:outputText value="Preço:"/>
-                    <p:inputText value="#{ProdutoBean.prodCad.preco}"/>
+                    <p:inputText value="#{bProduto.preco}"/>
                    
 
                 </p:panelGrid>
-                    <p:commandButton value="cadastrar" action="#{ProdutoBean.inserir(ProdutoBean.prodCad)}"
-                                     oncomplete="location.href='ProdutoView.xhtml'"/>
-                    <p:commandButton value="Cancelar" oncomplete="PF('widCadastrar').hide()"/>
+                    <p:commandButton value="cadastrar" action="#{ProdutoBean.inserir(bProduto.builderProduto())}"
+                                     oncomplete="location.href='ProdutoView.xhtml'" update=":formProd"/>
+                    <p:commandButton value="Cancelar" oncomplete="PF('WidCadastrar').hide()"/>
                 </h:form>
             </p:dialog>
             

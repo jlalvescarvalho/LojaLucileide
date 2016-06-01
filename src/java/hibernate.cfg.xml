@@ -17,5 +17,7 @@
     <mapping class="Model.Endereco"/>
     <mapping class="Model.Fiado"/>
     <mapping class="Model.Produto"/>
+    <mapping class="Model.LoteVenda"/>
+    <mapping class="Model.ItemVenda"/>
   </session-factory>
 </hibernate-configuration>

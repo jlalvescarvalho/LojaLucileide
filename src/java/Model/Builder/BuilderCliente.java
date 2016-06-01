@@ -3,43 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.Builder;
 
-import java.io.Serializable;
+import Model.Cliente;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
  * @author Luciano
  */
-@Entity(name = "Cliente")
-public class Cliente implements Serializable{
-    
-    @Id
-    @GeneratedValue
-    private int Id;
+@ManagedBean(name = "bCliente")
+@RequestScoped
+public class BuilderCliente {
     
     private long Cpf_Cnpj;
     private String Nome;
     private String Apelido;
     private String Genero;
     private long Rg;
-    @Temporal(value = TemporalType.DATE)
     private Date DtNasc;
-    @OneToOne
-    private Endereco endereco;
-    
 
-    public Cliente(long Cpf_Cnpj, String Nome, String Apelido, String Genero, long Rg, Date DtNasc) {
+    public BuilderCliente(long Cpf_Cnpj, String Nome, String Apelido, String Genero, long Rg, Date DtNasc) {
         this.Cpf_Cnpj = Cpf_Cnpj;
         this.Nome = Nome;
         this.Apelido = Apelido;
@@ -47,16 +33,10 @@ public class Cliente implements Serializable{
         this.Rg = Rg;
         this.DtNasc = DtNasc;
     }
-    public Cliente() {
-    }
 
-    public int getId() {
-        return Id;
+    public BuilderCliente() {
     }
-
-    public void setId(int Id) {
-        this.Id = Id;
-    }
+    
 
     public long getCpf_Cnpj() {
         return Cpf_Cnpj;
@@ -105,15 +85,8 @@ public class Cliente implements Serializable{
     public void setDtNasc(Date DtNasc) {
         this.DtNasc = DtNasc;
     }
-
-    public Endereco getEndereco() {
-        return endereco;
+    
+    public Cliente builderCliente(){
+        return new Cliente(this.Cpf_Cnpj, this.Nome, this.Apelido, this.Genero, this.Rg, this.DtNasc);
     }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-    
-    
-    
 }

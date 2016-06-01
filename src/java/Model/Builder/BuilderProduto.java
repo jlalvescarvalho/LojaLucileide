@@ -3,54 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.Builder;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import Model.Produto;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
  * @author Luciano
  */
-@Table(name = "Produto")
-@Entity
-public class Produto{
-    
-    @Id
-    @GeneratedValue
-    private int id;
-    @Column(name = "Codigo")
+@ManagedBean(name = "bProduto")
+@RequestScoped
+public class BuilderProduto {
+
     private long Codigo;
-    @Column(name = "Descrição")
     private String Descricao;
-    @Column(name = "Marca")
     private String Marca;
-    @Column(name = "Preco")
     private double preco;
-    
 
-    public Produto(long Codigo, String Descricao, String Marca, double preco) {
-        this.Codigo = Codigo;
-        this.Descricao = Descricao;
-        this.Marca = Marca;
-        this.preco = preco;
-    }
 
-    
-    
-    public Produto() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public BuilderProduto() {
     }
 
     public long getCodigo() {
@@ -85,6 +58,8 @@ public class Produto{
         this.preco = preco;
     }
 
-    
-   
+
+    public Produto builderProduto(){ 
+       return new Produto(this.Codigo, this.Descricao, this.Marca, this.preco);
+}
 }

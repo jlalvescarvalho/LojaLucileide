@@ -20,14 +20,11 @@ import javax.faces.bean.SessionScoped;
 public class ClienteController implements ControllerGenerico<Cliente, Long>{
 
     private Cliente clienteSelected;
-    private Cliente cliente;
 
     public ClienteController() {
-        cliente = new Cliente();
+        clienteSelected = new Cliente();
     }
-    
-    
-
+   
     public Cliente getClienteSelected() {
         return clienteSelected;
     }
@@ -36,23 +33,16 @@ public class ClienteController implements ControllerGenerico<Cliente, Long>{
         this.clienteSelected = clienteSelected;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
+   
     
     @Override
-    public void inserir(Cliente cliente) {
-        DaoManagerHiber.getInstance().persist(cliente);
+    public void inserir(Cliente c) {
+        DaoManagerHiber.getInstance().persist(c);
     }
 
     @Override
-    public void deletar(Cliente cliente) {
-        DaoManagerHiber.getInstance().delete(cliente);
+    public void deletar(Cliente c) {
+        DaoManagerHiber.getInstance().delete(c);
     }
 
     @Override
@@ -66,8 +56,8 @@ public class ClienteController implements ControllerGenerico<Cliente, Long>{
     }
 
     @Override
-    public void alterar(Cliente cliente) {
-        DaoManagerHiber.getInstance().update(cliente);
+    public void alterar(Cliente c) {
+        DaoManagerHiber.getInstance().update(c);
     }
     
 }

@@ -15,9 +15,7 @@
             <p:commandButton value="Novo Cliente" oncomplete="PF('WidAdd').show()"/>
             
             <p:dataTable value="#{ClienteBean.recuperarTodos()}" var="item" selectionMode="single" rowKey="#{item.cpf_Cnpj}" paginator="false">
-                <f:facet name="header">
-                    Clientes Cadastrados
-                </f:facet>
+                <f:facet name="header">Clientes Cadastrados</f:facet>
                 
                 <p:column headerText="Cpf_Cnpj">
                     <h:outputText value="#{item.cpf_Cnpj}"/>
@@ -39,15 +37,15 @@
                 </p:column>
                 <p:column headerText="Ações">
                     <p:commandButton icon="ui-icon-trash" oncomplete="PF('WidApagar').show()">
-                        <f:setPropertyActionListener target="#{ClienteBean.clienteSelected}" value="item"/>
+                        <f:setPropertyActionListener target="#{ClienteBean.clienteSelected}" value="#{item}"/>
                     </p:commandButton>
-                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('WidAltera').show()">
-                        <f:setPropertyActionListener target="#{ClienteBean.clienteSelected}" value="item"/>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('WidAltera').show()" update=":dialAltera">
+                        <f:setPropertyActionListener target="#{ClienteBean.clienteSelected}" value="#{item}"/>
                     </p:commandButton>
                 </p:column>
                     
             </p:dataTable>
-            <p:confirmDialog  id="WidApagar" visible="false" message="Deseja realmente excluir esse cliente?" widgetVar="WidApagar">
+            <p:confirmDialog  id="dialApagar" visible="false" message="Deseja realmente excluir esse cliente?" widgetVar="WidApagar">
                 <p:commandButton value="Sim" action="#{ClienteBean.deletar(ClienteBean.clienteSelected)}" oncomplete="PF('WidApagar').hide()" update="formCliente"/>
                 <p:commandButton value="Não" oncomplete="PF('WidApagar').hide()"/>
             </p:confirmDialog>
@@ -58,25 +56,25 @@
             <h:form>
                 <p:panelGrid columns="2">
                         <h:outputText value="Cpf_Cnpj:"/>
-                        <h:outputText value="#{ClienteBean.cliente.cpf_Cnpj}"/>
+                        <h:outputText value="#{ClienteBean.clienteSelected.cpf_Cnpj}"/>
                         
                         <h:outputText value="RG:"/>
-                        <p:inputText value="#{ClienteBean.cliente.rg}"/>
+                        <p:inputText value="#{ClienteBean.clienteSelected.rg}"/>
                         
                         <h:outputText value="Nome:"/>
-                        <p:inputText value="#{ClienteBean.cliente.nome}"/>
+                        <p:inputText value="#{ClienteBean.clienteSelected.nome}"/>
                         
                         <h:outputText value="Apelido:"/>
-                        <p:inputText value="#{ClienteBean.cliente.apelido}"/>
+                        <p:inputText value="#{ClienteBean.clienteSelected.apelido}"/>
                         
                         <h:outputText value="Genero:"/>
-                        <p:inputText value="#{ClienteBean.cliente.genero}"/>
+                        <p:inputText value="#{ClienteBean.clienteSelected.genero}"/>
                         
                         <h:outputText value="Data de Nascimento:"/>
-                        <p:inputText value="#{ClienteBean.cliente.dtNasc}"/>
+                        <p:inputText value="#{ClienteBean.clienteSelected.dtNasc}"/>
                     </p:panelGrid>
-                <p:commandButton value="Alterar" action="#{ClienteBean.alterar(ClienteBean.cliente)}" 
-                                     oncomplete="PF('WidAltera').hide()"/>
+                <p:commandButton value="Alterar" action="#{ClienteBean.alterar(ClienteBean.clienteSelected)}" 
+                                 oncomplete="PF('WidAltera').hide()" update=":formCliente"/>
                     <p:commandButton value="Cancelar" oncomplete="PF('WidAltera').hide()"/>
             </h:form>
         </p:dialog>
@@ -86,26 +84,26 @@
                 <p:panelGrid columns="2">
                     
                     <h:outputText value="Cpf_Cnpj:"/>
-                    <p:inputText value="#{ClienteBean.cliente.cpf_Cnpj}"/>
+                    <p:inputText value="#{bCliente.cpf_Cnpj}"/>
                     
                     <h:outputText value="RG:"/>
-                    <p:inputText value="#{ClienteBean.cliente.rg}"/>
+                    <p:inputText value="#{bCliente.rg}"/>
                     
                     <h:outputText value="Nome:"/>
-                    <p:inputText value="#{ClienteBean.cliente.nome}"/>
+                    <p:inputText value="#{bCliente.nome}"/>
                     
                     <h:outputText value="Apelido:"/>
-                    <p:inputText value="#{ClienteBean.cliente.apelido}"/>
+                    <p:inputText value="#{bCliente.apelido}"/>
                     
                     <h:outputText value="Genero:"/>
-                    <p:inputText value="#{ClienteBean.cliente.genero}"/>
+                    <p:inputText value="#{bCliente.genero}"/>
                     
                     <h:outputText value="Data de Nascimento:"/>
-                    <p:calendar value="#{ClienteBean.cliente.dtNasc}"/>
+                    <p:calendar value="#{bCliente.dtNasc}"/>
 
                 </p:panelGrid>
-                    <p:commandButton value="cadastrar" action="#{ClienteBean.inserir(ClienteBean.cliente)}"
-                                     oncomplete="location.href='ClienteView.xhtml'" />
+                    <p:commandButton value="cadastrar" action="#{ClienteBean.inserir(bCliente.builderCliente())}"
+                                     oncomplete="location.href='ClienteView.xhtml'" update=":formCliente"/>
                     <p:commandButton value="cancelar" oncomplete="PF('WidAdd').hide()"/>
             </h:form>
             </p:dialog>

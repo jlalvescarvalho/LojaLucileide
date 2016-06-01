@@ -8,43 +8,45 @@
         <title>Venda</title>
     </h:head>
     <h:body>
-        
+
         <ui:include src="Menu.xhtml"/>
         <h:form id="formVenda">
-            <p:dataTable value="#{VendaController.listarProdutos()}" var="item" rowKey="#{item.codigo}" 
-                         selectionMode="Single" rows="3" paginator="true">
-            
-            <p:column headerText="Codigo" style="width: 20%;">
-            <h:outputText value="#{item.codigo}"/>
-            </p:column>
-            <p:column headerText="Descrição" filterBy="#{item.descricao}" style="width: 30%;">
-            <h:outputText value="#{item.descricao}"/>
-            </p:column>
-            <p:column headerText="Marca" style="width: 15%;">
-            <h:outputText value="#{item.marca}" />
-            </p:column>
-            <p:column headerText="Preço" style="width: 10%;">
-            <h:outputText value="#{item.preco}"/>
-            </p:column>
-            <p:column headerText="Ação" style="width: 15%;">
+            <p:dataTable id="tblProdutos" value="#{VendaController.listarProdutos()}" var="item" rowKey="#{item.codigo}" 
+                         selectionMode="Single" rows="5" paginator="true">
+
+                <p:column headerText="Codigo" style="width: 20%;">
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+                <p:column headerText="Descrição" filterBy="#{item.descricao}" style="width: 30%;">
+                    <h:outputText value="#{item.descricao}"/>
+                </p:column>
+                <p:column headerText="Marca" style="width: 15%;">
+                    <h:outputText value="#{item.marca}" />
+                </p:column>
+                <p:column headerText="Preço" style="width: 10%;">
+                    <h:outputText value="#{item.preco}"/>
+                </p:column>
+                <p:column headerText="Ação" style="width: 15%;">
                     <p:commandButton value="Adicionar" actionListener="#{VendaController.Adicionar(item)}" update=":formVenda:tblVenda" />
-            </p:column>
-        </p:dataTable>
-                        
-        <p:dataTable id="tblVenda" value="#{VendaController.listaItens}" var="Itens" rows="5" paginator="true">
-            <p:column headerText="Produto">
-                <h:outputText value="#{Itens.produto.descricao}" style="width: 40%;"/>
-            </p:column>
-            <p:column headerText="Quantidade" style="width: 10%;">
-                <h:outputText value="#{Itens.quantidade}"/>
-            </p:column>
-            <p:column headerText="Preço" style="width: 10%;">
-                <h:outputText value="#{Itens.produto.preco}"/>
-            </p:column>
-            <p:column headerText="Ação" style="width: 15%;">
-            <p:commandButton value="Remover"/>
-            </p:column>
-        </p:dataTable>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:dataTable id="tblVenda" value="#{VendaController.listaItens}" var="itemVenda" rows="5" 
+                         paginator="true" rowKey="#{itemVenda.codigo}">
+                <p:column headerText="Produto">
+                    <h:outputText value="#{itemVenda.produto.descricao}" style="width: 40%;"/>
+                </p:column>
+                <p:column headerText="Quantidade" style="width: 10%;">
+                    <h:outputText value="#{itemVenda.quantidade}"/>
+                </p:column>
+                <p:column headerText="Preço" style="width: 10%;">
+                    <h:outputText value="#{itemVenda.produto.preco}"/>
+                </p:column>
+                <p:column headerText="Ação" style="width: 15%;">
+                    <p:commandButton value="Remover"/>
+                </p:column>
+            </p:dataTable>
         </h:form>
     </h:body>
 </html>

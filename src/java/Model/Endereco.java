@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,7 +26,7 @@ public class Endereco implements Serializable{
     private String PontReferen;
     private String Cidade;
     private String Bairro;
-
+ 
     public Endereco(int Id, String Rua, int Num, String PontReferen, String Cidade, String Bairro) {
         this.Id = Id;
         this.Rua = Rua;
@@ -35,7 +36,6 @@ public class Endereco implements Serializable{
         this.Bairro = Bairro;
     }
     
-    @Deprecated
     public Endereco() {
     }
 

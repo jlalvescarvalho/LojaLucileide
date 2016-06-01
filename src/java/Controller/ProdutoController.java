@@ -16,8 +16,10 @@ import javax.faces.bean.SessionScoped;
 public class ProdutoController implements ControllerGenerico<Produto, Long>{
 
     private Produto produtoSelected;
-    private Produto prodCad;
-    
+ 
+    public ProdutoController(){
+        produtoSelected = new Produto();
+    }
     public Produto getProdutoSelected() {
         return produtoSelected;
     }
@@ -25,16 +27,6 @@ public class ProdutoController implements ControllerGenerico<Produto, Long>{
     public void setProdutoSelected(Produto produtoSelected) {
         this.produtoSelected = produtoSelected;
     }
-
-    public Produto getProdCad() {
-        return prodCad;
-    }
-
-    public void setProdCad(Produto prodCad) {
-        this.prodCad = prodCad;
-    }
-
-    
     
     @Override
     public void inserir(Produto p) {

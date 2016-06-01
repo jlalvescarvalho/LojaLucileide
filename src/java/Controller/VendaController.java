@@ -12,12 +12,14 @@ import Model.Produto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author Luciano
  */
 @ManagedBean(name = "VendaController")
+@SessionScoped
 public class VendaController implements ControllerGenerico<LoteVenda, Long>{
 
     private LoteVenda venda;
@@ -25,7 +27,7 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
     
     public VendaController() {
        venda = new LoteVenda();
-       
+       listaItens = new ArrayList<ItemVenda>();
     }
 
     public LoteVenda getVenda() {
@@ -37,9 +39,7 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
     }
 
     public List<ItemVenda> getListaItens() {
-        if(listaItens == null){
-            listaItens = new ArrayList<>();
-        }
+        
         return listaItens;
     }
 
@@ -48,29 +48,25 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
     }
     
     public void Adicionar(Produto produto){
-        int posicaoEncontrada = -1;
-        
-        for (int i = 0; i < listaItens.size() && posicaoEncontrada < 0; i++) {
-            ItemVenda itemTemp = listaItens.get(i);
-           if(itemTemp.getProduto().getId() == produto.getId()){
-               posicaoEncontrada = i;
+        ItemVenda item = null;
+        for (ItemVenda iv : listaItens) {
+            if(iv.getProduto().getId() == produto.getId()){
+               item = iv;
+               break;
            }
-        }
+        }      
         
-        ItemVenda item = new ItemVenda();
-        item.setProduto(produto);
-        
-        if(posicaoEncontrada < 0){
-            item.setQuantidade(1);
-            item.setValor(produto.getPreco());
-            listaItens.add(item);
+        if(item == null){
+            ItemVenda it = new ItemVenda();
+            it.setProduto(produto);
+            it.setQuantidade(1);
+            it.setValor(produto.getPreco());
+            listaItens.add(it);
         }else{
-            ItemVenda itemTemp = listaItens.get(posicaoEncontrada);
-            item.setQuantidade(itemTemp.getQuantidade() + 1);
+            item.setQuantidade(item.getQuantidade() + 1);
             item.setValor(produto.getPreco() * item.getQuantidade());
-            listaItens.set(posicaoEncontrada, item);
-            
         }
+        
     }
     
     public List<Produto> listarProdutos(){

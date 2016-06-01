@@ -23,20 +23,21 @@ public class ItemVenda {
     private long Codigo;
     private String Descricao;
     private int Quantidade;
+    private double ValorUnitario;
     private double Valor;
     @ManyToOne
     private Produto produto;
-    @ManyToOne
-    private LoteVenda loteVenda;
+    
 
-    public ItemVenda(int Id, int Item, long Codigo, String Nome, double Valor) {
+    public ItemVenda(int Id, int Item, long Codigo, String Nome, double Valor, double ValorUnitario) {
         this.Id = Id;
         this.Codigo = Codigo;
         this.Descricao = Nome;
         this.Valor = Valor;
+        this.ValorUnitario = ValorUnitario;
     }
     
-    @Deprecated
+    
     public ItemVenda() {
     }
 
@@ -80,13 +81,6 @@ public class ItemVenda {
         this.produto = produto;
     }
 
-    public LoteVenda getLoteVenda() {
-        return loteVenda;
-    }
-
-    public void setLoteVenda(LoteVenda loteVenda) {
-        this.loteVenda = loteVenda;
-    }
 
     public int getQuantidade() {
         return Quantidade;
@@ -94,6 +88,14 @@ public class ItemVenda {
 
     public void setQuantidade(int Quantidade) {
         this.Quantidade = Quantidade;
+    }
+
+    public double getValorUnitario() {
+        return ValorUnitario;
+    }
+
+    public void setValorUnitario(double ValorUnitario) {
+        this.ValorUnitario = ValorUnitario;
     }
     
     
