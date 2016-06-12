@@ -5,14 +5,20 @@
  */
 package Controller;
 
+import Model.Cliente;
 import Model.DaoManagerHiber;
 import Model.ItemVenda;
 import Model.LoteVenda;
 import Model.Produto;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -39,7 +45,6 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
     }
 
     public List<ItemVenda> getListaItens() {
-        
         return listaItens;
     }
 
@@ -60,13 +65,37 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
             ItemVenda it = new ItemVenda();
             it.setProduto(produto);
             it.setQuantidade(1);
-            it.setValor(produto.getPreco());
+            it.setValorItem(produto.getPreco());
             listaItens.add(it);
+            venda.setValorVenda(venda.getValorVenda()+produto.getPreco());
         }else{
             item.setQuantidade(item.getQuantidade() + 1);
-            item.setValor(produto.getPreco() * item.getQuantidade());
+            item.setValorItem(produto.getPreco() * item.getQuantidade());
+            venda.setValorVenda(venda.getValorVenda() + produto.getPreco());
         }
+       
+    }
+    
+    public void RemoverItem(ItemVenda itemVenda){
+        ItemVenda item=null;
+        for(ItemVenda iv : listaItens){
+            if(iv.getProduto().getId() == itemVenda.getProduto().getId())
+                item = iv;
+        }
+        listaItens.remove(item);
+        venda.setValorVenda(venda.getValorVenda() - item.getValorItem());
+    }
+    
+    public void CarregarDados(){
+        venda.setData(new Date());
         
+        
+    }
+    public void FinalizarVenda(){
+            this.listaItens = new ArrayList<>();
+            this.venda = new LoteVenda();
+            this.venda.setValorVenda(0.0);
+           
     }
     
     public List<Produto> listarProdutos(){

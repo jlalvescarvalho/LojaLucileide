@@ -3,16 +3,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Venda</title>
     </h:head>
     <h:body>
 
         <ui:include src="Menu.xhtml"/>
+        <p:separator/>
+        <p:growl id="gro" sticky="false" life="3000" />
+        
         <h:form id="formVenda">
+            <p:panelGrid columns="2">
+            <h:outputText value="Selecionar Cliente"/>
+            <p:selectOneMenu id="clienteSelect" value="#{ClienteBean.clienteSelected.id}" style="width:235px">
+                <p:ajax event="change" update=":dialFinaliza"/>
+                <f:selectItems value="#{ClienteBean.recuperarTodos()}" var="itemCliente" itemValue="#{itemCliente.id}" 
+                               itemLabel="#{itemCliente.nome}" />
+               </p:selectOneMenu>
+            </p:panelGrid>
+            <p:panelGrid id="pnVenda" columns="2">
             <p:dataTable id="tblProdutos" value="#{VendaController.listarProdutos()}" var="item" rowKey="#{item.codigo}" 
-                         selectionMode="Single" rows="5" paginator="true">
+                         selectionMode="Single" rows="3" paginator="true">
 
                 <p:column headerText="Codigo" style="width: 20%;">
                     <h:outputText value="#{item.codigo}"/>
@@ -26,28 +39,62 @@
                 <p:column headerText="Preço" style="width: 10%;">
                     <h:outputText value="#{item.preco}"/>
                 </p:column>
-                <p:column headerText="Ação" style="width: 15%;">
-                    <p:commandButton value="Adicionar" actionListener="#{VendaController.Adicionar(item)}" update=":formVenda:tblVenda" />
+                <p:column headerText="Ação" style="width: 10%;">
+                    <p:commandButton value="Adicionar" actionListener="#{VendaController.Adicionar(item)}" 
+                                     update=":formVenda:tblVenda :formVenda:Total :formfimVenda:TT"/>
                 </p:column>
 
             </p:dataTable>
-
-            <p:dataTable id="tblVenda" value="#{VendaController.listaItens}" var="itemVenda" rows="5" 
+            
+            <p:dataTable id="tblVenda" value="#{VendaController.listaItens}" var="itemVenda" rows="3" 
                          paginator="true" rowKey="#{itemVenda.codigo}">
-                <p:column headerText="Produto">
+                <p:column headerText="Produto" >
                     <h:outputText value="#{itemVenda.produto.descricao}" style="width: 40%;"/>
                 </p:column>
                 <p:column headerText="Quantidade" style="width: 10%;">
                     <h:outputText value="#{itemVenda.quantidade}"/>
                 </p:column>
-                <p:column headerText="Preço" style="width: 10%;">
+                <p:column headerText="Preço Unitario" style="width: 10%;">
                     <h:outputText value="#{itemVenda.produto.preco}"/>
                 </p:column>
-                <p:column headerText="Ação" style="width: 15%;">
-                    <p:commandButton value="Remover"/>
+                <p:column headerText="Valor Item" style="width: 13%;">
+                    <h:outputText value="#{itemVenda.valorItem}"/>
+                </p:column>
+                <p:column headerText="Ação" style="width: 10%;">
+                    <p:commandButton value="Remover" actionListener="#{VendaController.RemoverItem(itemVenda)}" update=":formVenda:tblVenda :formVenda:Total :formfimVenda:TT"/>
                 </p:column>
             </p:dataTable>
+
+            <p:panelGrid columns="1">
+                <h:outputText id="Total" value="Total Venda: R$ #{VendaController.venda.valorVenda}"/>
+                <p:commandButton value="Finalizar Venda" actionListener="#{VendaController.carregarDados}" oncomplete="PF('WidFinaliza').show()"/>
+            </p:panelGrid>
+        </p:panelGrid>
         </h:form>
+        <p:dialog id="dialFinaliza" resizable="false" visible="false" modal="true" widgetVar="WidFinaliza" header="Finalizar Venda">
+            <h:form id="formfimVenda">
+                <p:panelGrid id="pnFimVenda" columns="2">
+                    <h:outputText value="Data e Hora:"/>
+                    <h:outputText value="#{VendaController.venda.data}">
+                        <f:convertDateTime pattern="dd/MM/yyyy   HH:mm" timeZone="America/Sao_Paulo"/>
+                    </h:outputText>
+                    <h:outputText value="Cliente:"/>
+                    <h:outputText id="cc" value="#{ClienteBean.recuperarCliente().nome}"/>
+                    <h:outputText value="Valor da Compra:"/>
+                    <h:outputText id="TT" value=" R$ #{VendaController.venda.valorVenda}"/>
+                    <h:outputText value="Forma de Pagamento:"/>
+                    <p:selectOneMenu value="#{bVenda.formaPag}">
+                        <f:selectItem itemLabel="Avista" itemValue="Avista"/>
+                        <f:selectItem itemLabel="Fiado" itemValue="Fiado"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton value="Salvar" action="#{VendaController.finalizarVenda}" update=":formVenda:tblVenda :formVenda:Total"
+                                 oncomplete="PF('WidFinaliza').hide()"/>
+                <p:commandButton value="Cancelar" oncomplete="PF('WidFinaliza').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        
     </h:body>
 </html>
 

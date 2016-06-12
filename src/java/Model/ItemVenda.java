@@ -24,7 +24,7 @@ public class ItemVenda {
     private String Descricao;
     private int Quantidade;
     private double ValorUnitario;
-    private double Valor;
+    private double ValorItem;
     @ManyToOne
     private Produto produto;
     
@@ -33,7 +33,7 @@ public class ItemVenda {
         this.Id = Id;
         this.Codigo = Codigo;
         this.Descricao = Nome;
-        this.Valor = Valor;
+        this.ValorItem = Valor;
         this.ValorUnitario = ValorUnitario;
     }
     
@@ -65,12 +65,12 @@ public class ItemVenda {
         this.Descricao = Nome;
     }
 
-    public double getValor() {
-        return Valor;
+    public double getValorItem() {
+        return ValorItem;
     }
 
-    public void setValor(double Valor) {
-        this.Valor = Valor;
+    public void setValorItem(double ValorItem) {
+        this.ValorItem = ValorItem;
     }
 
     public Produto getProduto() {

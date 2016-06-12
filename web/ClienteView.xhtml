@@ -10,32 +10,34 @@
     </h:head>
     <h:body>
         <ui:include src="Menu.xhtml"/>
-        
+        <p:growl id="gro" sticky="false" life="3000"/>
         <h:form id="formCliente">
             <p:commandButton value="Novo Cliente" oncomplete="PF('WidAdd').show()"/>
-            
+
             <p:dataTable value="#{ClienteBean.recuperarTodos()}" var="item" selectionMode="single" rowKey="#{item.cpf_Cnpj}" paginator="false">
                 <f:facet name="header">Clientes Cadastrados</f:facet>
-                
+
                 <p:column headerText="Cpf_Cnpj">
                     <h:outputText value="#{item.cpf_Cnpj}"/>
                 </p:column>
                 <p:column headerText="RG">
                     <h:outputText value="#{item.rg}"/>
                 </p:column>
-                <p:column headerText="Nome">
+                <p:column headerText="Nome" style="width: 30%;">
                     <h:outputText value="#{item.nome}"/>
                 </p:column>
                 <p:column headerText="Apelido">
                     <h:outputText value="#{item.apelido}"/>
                 </p:column>
-                <p:column headerText="Genero">
+                <p:column headerText="Genero" style="width: 10%;">
                     <h:outputText value="#{item.genero}"/>
                 </p:column>
-                <p:column headerText="Data de Nascimento">
-                    <h:outputText value="#{item.dtNasc}"/>
+                <p:column headerText="Data de Nascimento" style="width: 15%;">
+                    <h:outputText value="#{item.dtNasc}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
                 </p:column>
-                <p:column headerText="Ações">
+                <p:column headerText="Ações" style="width: 10%;">
                     <p:commandButton icon="ui-icon-trash" oncomplete="PF('WidApagar').show()">
                         <f:setPropertyActionListener target="#{ClienteBean.clienteSelected}" value="#{item}"/>
                     </p:commandButton>
@@ -43,70 +45,76 @@
                         <f:setPropertyActionListener target="#{ClienteBean.clienteSelected}" value="#{item}"/>
                     </p:commandButton>
                 </p:column>
-                    
+
             </p:dataTable>
             <p:confirmDialog  id="dialApagar" visible="false" message="Deseja realmente excluir esse cliente?" widgetVar="WidApagar">
                 <p:commandButton value="Sim" action="#{ClienteBean.deletar(ClienteBean.clienteSelected)}" oncomplete="PF('WidApagar').hide()" update="formCliente"/>
                 <p:commandButton value="Não" oncomplete="PF('WidApagar').hide()"/>
             </p:confirmDialog>
-            
+
         </h:form>
-        
+
         <p:dialog id="dialAltera" resizable="false" visible="false" modal="true" widgetVar="WidAltera">
             <h:form>
                 <p:panelGrid columns="2">
-                        <h:outputText value="Cpf_Cnpj:"/>
-                        <h:outputText value="#{ClienteBean.clienteSelected.cpf_Cnpj}"/>
-                        
-                        <h:outputText value="RG:"/>
-                        <p:inputText value="#{ClienteBean.clienteSelected.rg}"/>
-                        
-                        <h:outputText value="Nome:"/>
-                        <p:inputText value="#{ClienteBean.clienteSelected.nome}"/>
-                        
-                        <h:outputText value="Apelido:"/>
-                        <p:inputText value="#{ClienteBean.clienteSelected.apelido}"/>
-                        
-                        <h:outputText value="Genero:"/>
-                        <p:inputText value="#{ClienteBean.clienteSelected.genero}"/>
-                        
-                        <h:outputText value="Data de Nascimento:"/>
-                        <p:inputText value="#{ClienteBean.clienteSelected.dtNasc}"/>
-                    </p:panelGrid>
+                    <h:outputText value="Cpf_Cnpj:"/>
+                    <h:outputText value="#{ClienteBean.clienteSelected.cpf_Cnpj}"/>
+
+                    <h:outputText value="RG:"/>
+                    <p:inputText value="#{ClienteBean.clienteSelected.rg}"/>
+
+                    <h:outputText value="Nome:"/>
+                    <p:inputText value="#{ClienteBean.clienteSelected.nome}"/>
+
+                    <h:outputText value="Apelido:"/>
+                    <p:inputText value="#{ClienteBean.clienteSelected.apelido}"/>
+
+                    <h:outputText value="Genero:"/>
+                    <p:selectOneMenu value="#{ClienteBean.clienteSelected.genero}">
+                        <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                        <f:selectItem itemLabel="Feminino" itemValue="Feminino"/>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Data de Nascimento:"/>
+                    <p:calendar value="#{ClienteBean.clienteSelected.dtNasc}"/>
+                </p:panelGrid>
                 <p:commandButton value="Alterar" action="#{ClienteBean.alterar(ClienteBean.clienteSelected)}" 
                                  oncomplete="PF('WidAltera').hide()" update=":formCliente"/>
-                    <p:commandButton value="Cancelar" oncomplete="PF('WidAltera').hide()"/>
+                <p:commandButton value="Cancelar" oncomplete="PF('WidAltera').hide()"/>
             </h:form>
         </p:dialog>
-        
+
         <p:dialog id="dialAdd" resizable="false" visible="false" modal="true" widgetVar="WidAdd">
-                <h:form>
+            <h:form>
                 <p:panelGrid columns="2">
-                    
+
                     <h:outputText value="Cpf_Cnpj:"/>
                     <p:inputText value="#{bCliente.cpf_Cnpj}"/>
-                    
+
                     <h:outputText value="RG:"/>
                     <p:inputText value="#{bCliente.rg}"/>
-                    
+
                     <h:outputText value="Nome:"/>
                     <p:inputText value="#{bCliente.nome}"/>
-                    
+
                     <h:outputText value="Apelido:"/>
                     <p:inputText value="#{bCliente.apelido}"/>
-                    
+
                     <h:outputText value="Genero:"/>
-                    <p:inputText value="#{bCliente.genero}"/>
-                    
+                    <p:selectOneMenu value="#{bCliente.genero}">
+                        <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                        <f:selectItem itemLabel="Feminino" itemValue="Feminino"/>
+                    </p:selectOneMenu>
+
                     <h:outputText value="Data de Nascimento:"/>
                     <p:calendar value="#{bCliente.dtNasc}"/>
 
                 </p:panelGrid>
-                    <p:commandButton value="cadastrar" action="#{ClienteBean.inserir(bCliente.builderCliente())}"
-                                     oncomplete="location.href='ClienteView.xhtml'" update=":formCliente"/>
-                    <p:commandButton value="cancelar" oncomplete="PF('WidAdd').hide()"/>
+                <p:commandButton value="cadastrar" action="#{ClienteBean.inserir(bCliente.builderCliente())}"
+                                 oncomplete="location.href='ClienteView.xhtml'" update=":formCliente"/>
+                <p:commandButton value="cancelar" oncomplete="PF('WidAdd').hide()"/>
             </h:form>
-            </p:dialog>
+        </p:dialog>
     </h:body>
 </html>
 

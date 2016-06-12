@@ -29,20 +29,27 @@ public class LoteVenda {
     @GeneratedValue
     private int Id;
     @Column
-    private long Codigo;
-    @Temporal(value = TemporalType.DATE)
     private Date Data;
     @Column
-    private String Fiado;
+    private String FormaPag;
     @Column
-    private String Avista;
-    
-    @OneToOne
+    private double ValorVenda;
+    @ManyToOne
     private Cliente cliente;
     @OneToMany
     private List<ItemVenda> itensVenda;
 
+    public LoteVenda(Date Data, String FormaPag, double ValorVenda, Cliente cliente, List<ItemVenda> itensVenda) {
+        this.Data = Data;
+        this.FormaPag = FormaPag;
+        this.ValorVenda = ValorVenda;
+        this.cliente = cliente;
+        this.itensVenda = itensVenda;
+    }
+
     
+
+   
    public LoteVenda() {
     }
 
@@ -54,36 +61,12 @@ public class LoteVenda {
         this.Id = Id;
     }
 
-    public long getCodigo() {
-        return Codigo;
-    }
-
-    public void setCodigo(long Codigo) {
-        this.Codigo = Codigo;
-    }
-
     public Date getData() {
-        return Data;
+        return new Date();
     }
 
     public void setData(Date Data) {
         this.Data = Data;
-    }
-
-    public String getFiado() {
-        return Fiado;
-    }
-
-    public void setFiado(String Fiado) {
-        this.Fiado = Fiado;
-    }
-
-    public String getAvista() {
-        return Avista;
-    }
-
-    public void setAvista(String Avista) {
-        this.Avista = Avista;
     }
 
     public Cliente getCliente() {
@@ -94,6 +77,21 @@ public class LoteVenda {
         this.cliente = cliente;
     }
 
+    public double getValorVenda() {
+        return ValorVenda;
+    }
+
+    public void setValorVenda(double ValorVenda) {
+        this.ValorVenda = ValorVenda;
+    }
+    
+    public String getFormaPag() {
+        return FormaPag;
+    }
+
+    public void setFormaPag(String FormaPag) {
+        this.FormaPag = FormaPag;
+    }
     
     
     

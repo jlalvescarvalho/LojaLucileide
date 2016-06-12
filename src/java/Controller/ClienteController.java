@@ -54,6 +54,10 @@ public class ClienteController implements ControllerGenerico<Cliente, Long>{
     public Cliente recuperar(Long id) {
         return (Cliente)DaoManagerHiber.getInstance().recover(Cliente.class, id);
     }
+    
+    public Cliente recuperarCliente(){
+        return (Cliente)DaoManagerHiber.getInstance().recover(Cliente.class, new Long(this.clienteSelected.getId()));
+    }
 
     @Override
     public void alterar(Cliente c) {

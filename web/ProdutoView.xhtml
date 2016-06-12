@@ -14,23 +14,21 @@
             
             <p:dataTable id="tableProd" value="#{ProdutoBean.recuperarTodos()}" var="item" paginator="false"
                          rowKey="#{item.codigo}" selectionMode="single">
-                <f:facet name="header">
-                    Produtos Cadastrados
-                </f:facet>
+                <f:facet name="header">Produtos Cadastrados</f:facet>
                 
                 <p:column headerText="Codigo">
                     <h:outputText value="#{item.codigo}"/>
                 </p:column>
-                <p:column headerText="Descrição">
+                <p:column headerText="Descrição" style="width: 30%;">
                     <h:outputText value="#{item.descricao}"/>
                 </p:column>
                 <p:column headerText="Marca">
                     <h:outputText value="#{item.marca}"/>
                 </p:column>
-                <p:column headerText="Preço">
+                <p:column headerText="Preço" style="width: 15%;">
                     <h:outputText value="#{item.preco}"/>
                 </p:column>
-                <p:column headerText="Acões">
+                <p:column headerText="Acões" style="width: 10%;">
                     <p:commandButton icon="ui-icon-trash" oncomplete="PF('WidDial').show()">
                         <f:setPropertyActionListener target="#{ProdutoBean.produtoSelected}" value="#{item}"/>
                     </p:commandButton>

@@ -86,7 +86,7 @@ public class DaoManagerHiber {
             tr = s.beginTransaction();  
         }
          
-        Object registroRecuperado = s.get(classe, id);
+        Object registroRecuperado = s.get(classe, id.intValue());
         //Query query = s.createQuery(hql);
         
         s.flush();
