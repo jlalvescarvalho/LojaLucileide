@@ -34,12 +34,12 @@ public class UsuarioController implements ControllerGenerico<Usuario, Long>{
 
     @Override
     public List<Usuario> recuperarTodos() {
-        return DaoManagerHiber.getInstance().recoverAll("from usuario");
+        return DaoManagerHiber.getInstance().recover("from usuario");
     }
 
     @Override
     public Usuario recuperar(Long id) {
-        return (Usuario)DaoManagerHiber.getInstance().recover(Usuario.class, id);
+        return (Usuario)DaoManagerHiber.getInstance().recover(id);
     }
 
     @Override

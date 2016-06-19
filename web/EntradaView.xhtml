@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Entrada</title>
+    </h:head>
+    <h:body>
+        
+        <h:form id="formEntrada">
+
+            <p:panelGrid id="pnVenda" columns="2">
+                <p:dataTable id="tblProdutos" value="#{ProdutoBean.recuperarTodos()}" var="item" rowKey="#{item.codigo}" 
+                         selectionMode="Single" rows="3" paginator="true">
+
+                <p:column headerText="Codigo" style="width: 20%;">
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+                <p:column headerText="Descrição" filterBy="#{item.descricao}" style="width: 30%;">
+                    <h:outputText value="#{item.descricao}"/>
+                </p:column>
+                <p:column headerText="Marca" style="width: 15%;">
+                    <h:outputText value="#{item.marca}" />
+                </p:column>
+                <p:column headerText="Preço" style="width: 10%;">
+                    <h:outputText value="#{item.preco}"/>
+                </p:column>
+                <p:column headerText="Ação" style="width: 10%;">
+                    <p:commandButton value="Adicionar" actionListener="#{EntradaBean.Adicionar(item)}"/>
+                </p:column>
+
+            </p:dataTable>
+            
+            <p:dataTable id="tblVenda" value="#{EntradaBean.itensEntrada}" var="itemEntrada" rows="3" 
+                         paginator="true" rowKey="#{itemEntrada.codigo}">
+                <p:column headerText="Produto" >
+                    <h:outputText value="#{itemEntrada.produto.descricao}" style="width: 40%;"/>
+                </p:column>
+                <p:column headerText="Quantidade" style="width: 10%;">
+                    <h:outputText value="#{itemEntrada.quant}"/>
+                </p:column>
+                <p:column headerText="Preço Unitario" style="width: 10%;">
+                    <h:outputText value="#{itemEntrada.produto.preco}"/>
+                </p:column>
+                <p:column headerText="Valor Item" style="width: 13%;">
+                    <h:outputText value="#{itemEntrada.valor}"/>
+                </p:column>
+                <p:column headerText="Ação" style="width: 10%;">
+                    <p:commandButton value="Remover" actionListener="#{EntradaBean.RemoverItem(itemVenda)}" update=":formVenda:tblVenda :formVenda:Total :formfimVenda:TT"/>
+                </p:column>
+            </p:dataTable>
+        </p:panelGrid>
+        </h:form>
+ 
+    </h:body>
+</html>
+

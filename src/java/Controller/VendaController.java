@@ -30,10 +30,12 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
 
     private LoteVenda venda;
     private List<ItemVenda> listaItens;
+
     
     public VendaController() {
        venda = new LoteVenda();
        listaItens = new ArrayList<ItemVenda>();
+
     }
 
     public LoteVenda getVenda() {
@@ -92,6 +94,11 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
         
     }
     public void FinalizarVenda(){
+            ClienteController ct = new ClienteController();
+            venda.setData(new Date());
+            venda.setCliente(ct.recuperarCliente());
+            inserir(venda);
+            
             this.listaItens = new ArrayList<>();
             this.venda = new LoteVenda();
             this.venda.setValorVenda(0.0);
@@ -99,7 +106,7 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
     }
     
     public List<Produto> listarProdutos(){
-        return DaoManagerHiber.getInstance().recoverAll("from Produto");
+        return DaoManagerHiber.getInstance().recover("from Produto");
     }
     
     @Override
@@ -114,12 +121,12 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
 
     @Override
     public List<LoteVenda> recuperarTodos() {
-        return DaoManagerHiber.getInstance().recoverAll("from LoteVenda");
+        return DaoManagerHiber.getInstance().recover("from LoteVenda");
     }
 
     @Override
     public LoteVenda recuperar(Long id) {
-        return (LoteVenda)DaoManagerHiber.getInstance().recover(LoteVenda.class, id);
+        return (LoteVenda)DaoManagerHiber.getInstance().recover(id);
     }
 
     @Override

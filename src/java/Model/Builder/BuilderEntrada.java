@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.Builder;
 
+import Model.LoteEntrada;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -16,42 +16,30 @@ import javax.persistence.TemporalType;
  *
  * @author Luciano
  */
-@Entity(name = "LoteEntrada")
-public class LoteEntrada {
-    @Id
-    @GeneratedValue
-    private int Id;
+@ManagedBean(name = "bEntrada")
+@RequestScoped
+public class BuilderEntrada {
     
     private long Codigo;
-    private String Descricao;
     private int Quant;
     @Temporal(value = TemporalType.DATE)
     private Date Data;
+    private String Descricao;
 
-    public LoteEntrada(int Id, long Codigo, int Quant, Date Data, String Descricao) {
-        this.Id = Id;
+    public BuilderEntrada(long Codigo, int Quant, Date Data, String Descricao) {
         this.Codigo = Codigo;
         this.Quant = Quant;
         this.Data = Data;
         this.Descricao = Descricao;
     }
-    @Deprecated
-    public LoteEntrada() {
-    }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int Id) {
-        this.Id = Id;
-    }
+    
+    
 
     public long getCodigo() {
         return Codigo;
     }
 
-    public void setCodigo(int Codigo) {
+    public void setCodigo(long Codigo) {
         this.Codigo = Codigo;
     }
 
@@ -80,4 +68,7 @@ public class LoteEntrada {
     }
     
     
+    public LoteEntrada builderEntrada(){
+        return new LoteEntrada(this.Quant, this.Codigo, this.Quant, this.Data, this.Descricao);
+    }
 }

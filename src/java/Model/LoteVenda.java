@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -34,7 +35,7 @@ public class LoteVenda {
     private String FormaPag;
     @Column
     private double ValorVenda;
-    @ManyToOne
+    @OneToOne
     private Cliente cliente;
     @OneToMany
     private List<ItemVenda> itensVenda;
@@ -91,6 +92,14 @@ public class LoteVenda {
 
     public void setFormaPag(String FormaPag) {
         this.FormaPag = FormaPag;
+    }
+
+    public List<ItemVenda> getItensVenda() {
+        return itensVenda;
+    }
+
+    public void setItensVenda(List<ItemVenda> itensVenda) {
+        this.itensVenda = itensVenda;
     }
     
     

@@ -33,12 +33,12 @@ public class EnderecoController implements ControllerGenerico<Endereco, Long>{
 
     @Override
     public List<Endereco> recuperarTodos() {
-        return DaoManagerHiber.getInstance().recoverAll("from endereco");
+        return DaoManagerHiber.getInstance().recover("from endereco");
     }
 
     @Override
     public Endereco recuperar(Long id) {
-        return (Endereco)DaoManagerHiber.getInstance().recover(Endereco.class, id);
+        return (Endereco)DaoManagerHiber.getInstance().recover(id);
     }
 
     @Override

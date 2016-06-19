@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
 import java.util.List;
@@ -11,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
@@ -29,7 +26,7 @@ public class DaoManagerHiber {
 
     try{
 
-        sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+        sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
         s = sessionFactory.openSession();
         
 
@@ -53,63 +50,50 @@ public class DaoManagerHiber {
     public void persist(Object o){
         
         Transaction tr = null;
-        try{
-           
-            s = sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }catch(org.hibernate.exception.JDBCConnectionException ex){
-            s.close();
-            s=sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }
-            
         
-         
-            
+        s.close();
+        
+        s = sessionFactory.openSession();
+        
+        tr = s.beginTransaction();
         
         s.save(o);
         
         tr.commit();
         
-        s.flush();
+        //s.close();
     }
     
-    public Object recover(Class classe, Long id){
+    public List recover(String hql){
         Transaction tr = null;
-        try{
-           
-            s = sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }catch(org.hibernate.exception.JDBCConnectionException ex){
-            s.close();
-            s=sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }
-         
-        Object registroRecuperado = s.get(classe, id.intValue());
-        //Query query = s.createQuery(hql);
         
-        s.flush();
-        return registroRecuperado;
-        //return query.list();
+        try{
+        s.close();
+        }catch(org.hibernate.SessionException sess){
+            
+        }
+        
+         s = sessionFactory.openSession();
+         
+         tr = s.beginTransaction();
+        
+        Query query = s.createQuery(hql);
+        
+        //s.close();
+        
+        return query.list();
     }
     
     public List recoverSQL(String sql){
         Transaction tr = null;
-        try{
-           
-            s = sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }catch(org.hibernate.exception.JDBCConnectionException ex){
-            s.close();
-            s=sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }
-         
+        
+        s.close();
+        
+        s = sessionFactory.openSession();
+        
+        tr = s.beginTransaction();  
         
         Query query = s.createSQLQuery(sql);
-        
-        s.flush();
         
         return query.list();
     }
@@ -121,76 +105,47 @@ public class DaoManagerHiber {
         c.add(Example.create(o).enableLike(MatchMode.ANYWHERE).ignoreCase().excludeProperty("codigo"));
         
         List l = c.list();
-        s.flush();
+        s.close();
         
         return l;
     }
     
-    public void update(Object o){
+    public void update(Object o) {
         Transaction tr = null;
-        try{
-           
+        
+            s.close();
             s = sessionFactory.openSession();
             tr = s.beginTransaction();  
-        }catch(org.hibernate.exception.JDBCConnectionException ex){
-            s.close();
-            s=sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }
-         
+        
         
         s.update(o);
         
+        //s.close();
+        
         tr.commit();
         
-        s.flush();
-    }
-    
-     public List recoverAll(String hql){
-        Transaction tr = null;
-        try{
-           
-            s = sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }catch(org.hibernate.exception.JDBCConnectionException ex){
-            s.close();
-            s=sessionFactory.openSession();
-            tr = s.beginTransaction();  
-        }
-         
         
-        Query query = s.createQuery(hql);
-        
-        s.flush();
-        
-        return query.list();
     }
     
     public void delete(Object o){
         Transaction tr = null;
-        try{
-            s.clear();
-            s = sessionFactory.openSession();
-            tr = s.beginTransaction();
-        }catch(Exception ex){
+        
             s.close();
             s=sessionFactory.openSession();
             tr = s.beginTransaction();
-        }
         
+        //s.close();
         
         s.delete(o);
         
         tr.commit();
         
-        s.flush();
+        //s.close();
     }
     
     public static void main(String args[]){
         SchemaExport se = new SchemaExport(new AnnotationConfiguration().configure());
 		se.create(true, true);
-                
-       
     }
     
 }

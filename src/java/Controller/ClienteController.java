@@ -17,7 +17,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean(name = "ClienteBean")
 @SessionScoped
-public class ClienteController implements ControllerGenerico<Cliente, Long>{
+public class ClienteController implements ControllerGenerico<Cliente, Integer>{
 
     private Cliente clienteSelected;
 
@@ -47,16 +47,23 @@ public class ClienteController implements ControllerGenerico<Cliente, Long>{
 
     @Override
     public List<Cliente> recuperarTodos() {
-       return DaoManagerHiber.getInstance().recoverAll("from Cliente");
+       return DaoManagerHiber.getInstance().recover("from Cliente");
     }
 
     @Override
-    public Cliente recuperar(Long id) {
-        return (Cliente)DaoManagerHiber.getInstance().recover(Cliente.class, id);
+    public Cliente recuperar(Integer id) {
+       return (Cliente)DaoManagerHiber.getInstance().recover(id);
+       
     }
     
     public Cliente recuperarCliente(){
-        return (Cliente)DaoManagerHiber.getInstance().recover(Cliente.class, new Long(this.clienteSelected.getId()));
+        List<Cliente> lista = DaoManagerHiber.getInstance().recover("from Cliente where id="+clienteSelected.getId());
+        for(int i=0; i < lista.size(); i++){
+            if(lista.size() >= 0){
+                return lista.get(0);
+            }
+        }
+        return null;
     }
 
     @Override

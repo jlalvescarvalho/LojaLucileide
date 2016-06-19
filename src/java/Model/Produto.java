@@ -31,13 +31,15 @@ public class Produto{
     private String Marca;
     @Column(name = "Preco")
     private double preco;
+    private int Estoque;
     
 
-    public Produto(long Codigo, String Descricao, String Marca, double preco) {
+    public Produto(long Codigo, String Descricao, String Marca, double preco, int Estoque) {
         this.Codigo = Codigo;
         this.Descricao = Descricao;
         this.Marca = Marca;
         this.preco = preco;
+        this.Estoque = Estoque;
     }
 
     
@@ -83,6 +85,14 @@ public class Produto{
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public int getEstoque() {
+        return Estoque;
+    }
+
+    public void setEstoque(int Estoque) {
+        this.Estoque = Estoque;
     }
 
     

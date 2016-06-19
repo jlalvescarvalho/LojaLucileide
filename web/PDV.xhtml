@@ -23,7 +23,9 @@
                                itemLabel="#{itemCliente.nome}" />
                </p:selectOneMenu>
             </p:panelGrid>
+            
             <p:panelGrid id="pnVenda" columns="2">
+                
             <p:dataTable id="tblProdutos" value="#{VendaController.listarProdutos()}" var="item" rowKey="#{item.codigo}" 
                          selectionMode="Single" rows="3" paginator="true">
 
@@ -67,7 +69,8 @@
 
             <p:panelGrid columns="1">
                 <h:outputText id="Total" value="Total Venda: R$ #{VendaController.venda.valorVenda}"/>
-                <p:commandButton value="Finalizar Venda" actionListener="#{VendaController.carregarDados}" oncomplete="PF('WidFinaliza').show()"/>
+                <p:commandButton value="Finalizar Venda" actionListener="#{VendaController.CarregarDados}"
+                                 oncomplete="PF('WidFinaliza').show()"/>
             </p:panelGrid>
         </p:panelGrid>
         </h:form>
@@ -83,12 +86,13 @@
                     <h:outputText value="Valor da Compra:"/>
                     <h:outputText id="TT" value=" R$ #{VendaController.venda.valorVenda}"/>
                     <h:outputText value="Forma de Pagamento:"/>
-                    <p:selectOneMenu value="#{bVenda.formaPag}">
+                    <p:selectOneMenu value="#{VendaController.venda.formaPag}">
                         <f:selectItem itemLabel="Avista" itemValue="Avista"/>
                         <f:selectItem itemLabel="Fiado" itemValue="Fiado"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
-                <p:commandButton value="Salvar" action="#{VendaController.finalizarVenda}" update=":formVenda:tblVenda :formVenda:Total"
+                <p:commandButton value="Salvar" actionListener="#{VendaController.FinalizarVenda()}" 
+                                 update=":formVenda:tblVenda :formVenda:Total"
                                  oncomplete="PF('WidFinaliza').hide()"/>
                 <p:commandButton value="Cancelar" oncomplete="PF('WidFinaliza').hide()"/>
             </h:form>

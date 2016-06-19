@@ -50,7 +50,7 @@ public class ProdutoController implements ControllerGenerico<Produto, Long>{
 
     @Override
     public List<Produto> recuperarTodos() {
-        return DaoManagerHiber.getInstance().recoverAll("from Produto");
+        return DaoManagerHiber.getInstance().recover("from Produto");
     }
  
     

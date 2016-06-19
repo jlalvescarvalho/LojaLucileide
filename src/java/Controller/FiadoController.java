@@ -33,12 +33,12 @@ public class FiadoController implements ControllerGenerico<Fiado, Long>{
 
     @Override
     public List recuperarTodos() {
-        return DaoManagerHiber.getInstance().recoverAll("from fiado");
+        return DaoManagerHiber.getInstance().recover("from fiado");
     }
 
     @Override
     public Fiado recuperar(Long id) {
-        return (Fiado)DaoManagerHiber.getInstance().recover(Fiado.class, id);
+        return (Fiado)DaoManagerHiber.getInstance().recover(id);
     }
 
     @Override

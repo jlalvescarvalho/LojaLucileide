@@ -57,12 +57,12 @@ public class EstoqueController implements ControllerGenerico<Estoque, Long>{
 
     @Override
     public List<Estoque> recuperarTodos() {
-       return DaoManagerHiber.getInstance().recoverAll("from Estoque");
+       return DaoManagerHiber.getInstance().recover("from Estoque");
     }
 
     @Override
     public Estoque recuperar(Long id) {
-        return (Estoque)DaoManagerHiber.getInstance().recover(Estoque.class, id);
+        return (Estoque)DaoManagerHiber.getInstance().recover(id);
     }
 
     @Override

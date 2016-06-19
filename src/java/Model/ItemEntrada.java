@@ -8,6 +8,7 @@ package Model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -20,7 +21,10 @@ public class ItemEntrada {
     private int Id;
     private long Codigo;
     private String Nome;
+    private int Quant;
     private double Valor;
+    @OneToOne
+    private Produto produto;
 
     public ItemEntrada(int Id, long Codigo, String Nome, double Valor) {
         this.Id = Id;
@@ -63,6 +67,22 @@ public class ItemEntrada {
 
     public void setValor(double Valor) {
         this.Valor = Valor;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public int getQuant() {
+        return Quant;
+    }
+
+    public void setQuant(int Quant) {
+        this.Quant = Quant;
     }
     
     

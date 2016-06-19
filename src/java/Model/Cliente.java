@@ -37,7 +37,7 @@ public class Cliente implements Serializable{
     private Date DtNasc;
     @OneToOne
     private Endereco endereco;
-    
+        
 
     public Cliente(long Cpf_Cnpj, String Nome, String Apelido, String Genero, long Rg, Date DtNasc) {
         this.Cpf_Cnpj = Cpf_Cnpj;
