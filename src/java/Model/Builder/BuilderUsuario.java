@@ -3,31 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.Builder;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import Model.Usuario;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
  * @author Luciano
  */
-@Entity(name = "Usuario")
-public class Usuario implements Serializable {
-
-    @Id
-    @GeneratedValue
-    private int Id;
-
+@ManagedBean(name = "bUsuario")
+@RequestScoped
+public class BuilderUsuario {
+    
     private String Nome;
     private long Cpf;
     private String e_mail;
     private String login;
     private String senha;
 
-    public Usuario(String Nome, long Cpf, String e_mail, String login, String senha) {
+    public BuilderUsuario(String Nome, long Cpf, String e_mail, String login, String senha) {
         this.Nome = Nome;
         this.Cpf = Cpf;
         this.e_mail = e_mail;
@@ -35,17 +31,9 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    @Deprecated
-    public Usuario() {
+    public BuilderUsuario() {
     }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int Id) {
-        this.Id = Id;
-    }
+    
 
     public String getNome() {
         return Nome;
@@ -86,5 +74,8 @@ public class Usuario implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
+    
+    public Usuario builderUsuario(){
+        return new Usuario(this.Nome, this.Cpf, this.e_mail, this.login, this.senha);
+    }
 }

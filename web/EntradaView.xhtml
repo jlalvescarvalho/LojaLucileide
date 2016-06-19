@@ -3,16 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Entrada</title>
     </h:head>
     <h:body>
-        
+        <ui:include src="Menu.xhtml"/>
         <h:form id="formEntrada">
-
-            <p:panelGrid id="pnVenda" columns="2">
-                <p:dataTable id="tblProdutos" value="#{ProdutoBean.recuperarTodos()}" var="item" rowKey="#{item.codigo}" 
+                
+            <p:dataTable id="tblProdutos" value="#{ProdutoBean.recuperarTodos()}" var="item" rowKey="#{item.codigo}" 
                          selectionMode="Single" rows="3" paginator="true">
 
                 <p:column headerText="Codigo" style="width: 20%;">
@@ -28,12 +28,13 @@
                     <h:outputText value="#{item.preco}"/>
                 </p:column>
                 <p:column headerText="Ação" style="width: 10%;">
-                    <p:commandButton value="Adicionar" actionListener="#{EntradaBean.Adicionar(item)}"/>
+                    <p:commandButton value="Adicionar" actionListener="#{EntradaBean.Adicionar(item)}" 
+                                     update=":formEntrada:tblEntrada" />
                 </p:column>
 
             </p:dataTable>
             
-            <p:dataTable id="tblVenda" value="#{EntradaBean.itensEntrada}" var="itemEntrada" rows="3" 
+            <p:dataTable id="tblEntrada" value="#{EntradaBean.itensEntrada}" var="itemEntrada" rows="3" 
                          paginator="true" rowKey="#{itemEntrada.codigo}">
                 <p:column headerText="Produto" >
                     <h:outputText value="#{itemEntrada.produto.descricao}" style="width: 40%;"/>
@@ -41,19 +42,32 @@
                 <p:column headerText="Quantidade" style="width: 10%;">
                     <h:outputText value="#{itemEntrada.quant}"/>
                 </p:column>
-                <p:column headerText="Preço Unitario" style="width: 10%;">
-                    <h:outputText value="#{itemEntrada.produto.preco}"/>
-                </p:column>
-                <p:column headerText="Valor Item" style="width: 13%;">
-                    <h:outputText value="#{itemEntrada.valor}"/>
-                </p:column>
                 <p:column headerText="Ação" style="width: 10%;">
-                    <p:commandButton value="Remover" actionListener="#{EntradaBean.RemoverItem(itemVenda)}" update=":formVenda:tblVenda :formVenda:Total :formfimVenda:TT"/>
+                    <p:commandButton value="Remover" actionListener="#{EntradaBean.RemoverItem(itemEntrada)}" 
+                                     update=":formEntrada:tblEntrada "/>
                 </p:column>
             </p:dataTable>
-        </p:panelGrid>
+            <p:panelGrid columns="1">
+                <p:commandButton value="Finalizar Entrada" actionListener="#{EntradaBean.CarregarDados}"
+                                 oncomplete="PF('WidFinaliza').show()"/>
+            </p:panelGrid>
+           
         </h:form>
- 
+        <p:dialog id="dialFinaliza" resizable="false" visible="false" modal="true" widgetVar="WidFinaliza" header="Finalizar Entrada Produtos">
+            <h:form id="formfimEntrada">
+                <p:panelGrid id="pnFimEntrada" columns="2">
+                    <h:outputText value="Data e Hora:"/>
+                    <h:outputText value="#{EntradaBean.loteEntrada.data}">
+                        <f:convertDateTime pattern="dd/MM/yyyy  HH:mm" timeZone="America/Sao_Paulo"/>
+                    </h:outputText>
+                </p:panelGrid>
+                <p:commandButton value="Salvar" actionListener="#{EntradaBean.FinalizarEntrada()}" 
+                                 update=":formEntrada:tblEntrada"  oncomplete= "PF('WidFinaliza').hide()" />
+                <p:commandButton value="Cancelar" oncomplete="PF('WidFinaliza').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        
     </h:body>
 </html>
 

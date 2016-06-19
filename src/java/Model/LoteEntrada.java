@@ -6,9 +6,13 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,21 +25,16 @@ public class LoteEntrada {
     @Id
     @GeneratedValue
     private int Id;
-    
-    private long Codigo;
-    private String Descricao;
-    private int Quant;
+    @Column
     @Temporal(value = TemporalType.DATE)
     private Date Data;
+    @OneToMany(mappedBy = "loteEntrada", targetEntity = ItemEntrada.class, cascade = CascadeType.ALL)
+    private List<ItemEntrada> itensEntrada;
 
-    public LoteEntrada(int Id, long Codigo, int Quant, Date Data, String Descricao) {
-        this.Id = Id;
-        this.Codigo = Codigo;
-        this.Quant = Quant;
+    public LoteEntrada(Date Data) {
         this.Data = Data;
-        this.Descricao = Descricao;
     }
-    @Deprecated
+
     public LoteEntrada() {
     }
 
@@ -46,23 +45,6 @@ public class LoteEntrada {
     public void setId(int Id) {
         this.Id = Id;
     }
-
-    public long getCodigo() {
-        return Codigo;
-    }
-
-    public void setCodigo(int Codigo) {
-        this.Codigo = Codigo;
-    }
-
-    public int getQuant() {
-        return Quant;
-    }
-
-    public void setQuant(int Quant) {
-        this.Quant = Quant;
-    }
-
     public Date getData() {
         return Data;
     }
@@ -71,12 +53,13 @@ public class LoteEntrada {
         this.Data = Data;
     }
 
-    public String getDescricao() {
-        return Descricao;
+
+    public List<ItemEntrada> getItensEntrada() {
+        return itensEntrada;
     }
 
-    public void setDescricao(String Descricao) {
-        this.Descricao = Descricao;
+    public void setItensEntrada(List<ItemEntrada> itensEntrada) {
+        this.itensEntrada = itensEntrada;
     }
     
     

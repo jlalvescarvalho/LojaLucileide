@@ -37,7 +37,7 @@ public class LoteVenda {
     private double ValorVenda;
     @OneToOne
     private Cliente cliente;
-    @OneToMany
+    @OneToMany(mappedBy = "loteVenda", targetEntity = ItemVenda.class, cascade = CascadeType.ALL)
     private List<ItemVenda> itensVenda;
 
     public LoteVenda(Date Data, String FormaPag, double ValorVenda, Cliente cliente, List<ItemVenda> itensVenda) {

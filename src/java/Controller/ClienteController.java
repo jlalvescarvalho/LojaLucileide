@@ -19,7 +19,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class ClienteController implements ControllerGenerico<Cliente, Integer>{
 
-    private Cliente clienteSelected;
+    public static Cliente clienteSelected;
 
     public ClienteController() {
         clienteSelected = new Cliente();
@@ -32,7 +32,6 @@ public class ClienteController implements ControllerGenerico<Cliente, Integer>{
     public void setClienteSelected(Cliente clienteSelected) {
         this.clienteSelected = clienteSelected;
     }
-
    
     
     @Override

@@ -11,25 +11,44 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+
 /**
  *
  * @author Luciano
  */
-@ManagedBean
+@ManagedBean(name = "UsuarioBean")
 @SessionScoped
 public class UsuarioController implements ControllerGenerico<Usuario, Long>{
 
-    private Usuario usuario = null;
-    
-    
-    @Override
-    public void inserir(Usuario usuario) {
-        DaoManagerHiber.getInstance().persist(usuario);
+    private Usuario usuario;
+
+    public UsuarioController() {
+        this.usuario = new Usuario();
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    public Usuario recuperarUser(String login, String senha){
+        List<Usuario> lista = DaoManagerHiber.getInstance().recover("from Usuario where login="+login+" and senha="+senha);
+        if(lista.size() >= 0){
+            return lista.get(0);
+        }
+        return null;
+    }
+    
     @Override
-    public void deletar(Usuario usuario) {
-        DaoManagerHiber.getInstance().delete(usuario);
+    public void inserir(Usuario t) {
+        DaoManagerHiber.getInstance().persist(t);
+    }
+    
+    @Override
+    public void deletar(Usuario t) {
+        DaoManagerHiber.getInstance().delete(t);
     }
 
     @Override
@@ -43,8 +62,8 @@ public class UsuarioController implements ControllerGenerico<Usuario, Long>{
     }
 
     @Override
-    public void alterar(Usuario usuario) {
-        DaoManagerHiber.getInstance().update(usuario);
+    public void alterar(Usuario t) {
+        DaoManagerHiber.getInstance().update(t);
     }
     
 }

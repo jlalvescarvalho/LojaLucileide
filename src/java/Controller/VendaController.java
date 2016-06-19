@@ -26,7 +26,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "VendaController")
 @SessionScoped
-public class VendaController implements ControllerGenerico<LoteVenda, Long>{
+public class VendaController implements ControllerGenerico<LoteVenda, Integer>{
 
     private LoteVenda venda;
     private List<ItemVenda> listaItens;
@@ -68,6 +68,9 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
             it.setProduto(produto);
             it.setQuantidade(1);
             it.setValorItem(produto.getPreco());
+            it.setDescricao(produto.getDescricao());
+            it.setValorUnitario(produto.getPreco());
+            it.setCodigo(produto.getCodigo());
             listaItens.add(it);
             venda.setValorVenda(venda.getValorVenda()+produto.getPreco());
         }else{
@@ -93,11 +96,24 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
         
         
     }
+    public LoteVenda recuperarUltimaVenda(){
+        List<LoteVenda> vendas = this.recuperarTodos();
+       return vendas.get(vendas.size()-1);
+    }     
     public void FinalizarVenda(){
-            ClienteController ct = new ClienteController();
+            Cliente c = ClienteController.clienteSelected;
             venda.setData(new Date());
-            venda.setCliente(ct.recuperarCliente());
+            venda.setCliente(c);
+            venda.setItensVenda(listaItens);
             inserir(venda);
+            
+            for(ItemVenda item: listaItens){
+                item.setLoteVenda(recuperarUltimaVenda());
+                
+                ItemVendaController itControl = new ItemVendaController();
+                itControl.inserir(item);
+            }
+            
             
             this.listaItens = new ArrayList<>();
             this.venda = new LoteVenda();
@@ -125,7 +141,7 @@ public class VendaController implements ControllerGenerico<LoteVenda, Long>{
     }
 
     @Override
-    public LoteVenda recuperar(Long id) {
+    public LoteVenda recuperar(Integer id) {
         return (LoteVenda)DaoManagerHiber.getInstance().recover(id);
     }
 

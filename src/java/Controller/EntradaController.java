@@ -26,10 +26,12 @@ public class EntradaController implements ControllerGenerico<LoteEntrada, Long>{
 
     private LoteEntrada loteEntrada;
     private List<ItemEntrada> ItensEntrada;
+    private ItemEntrada entrada;
     
     
     public EntradaController() {
         this.loteEntrada = new LoteEntrada();
+        this.entrada = new ItemEntrada();
         this.ItensEntrada = new ArrayList<ItemEntrada>();
     }
 
@@ -50,11 +52,20 @@ public class EntradaController implements ControllerGenerico<LoteEntrada, Long>{
         this.ItensEntrada = ItensEntrada;
     }
 
-   public void Adicionar(Produto produto){
+    public ItemEntrada getEntrada() {
+        return entrada;
+    }
+
+    public void setEntrada(ItemEntrada entrada) {
+        this.entrada = entrada;
+    }
+    
+
+  public void Adicionar(Produto produto){
         ItemEntrada item = null;
-        for (ItemEntrada ie : ItensEntrada) {
-            if(ie.getProduto().getId() == produto.getId()){
-               item = ie;
+        for (ItemEntrada iv : ItensEntrada) {
+            if(iv.getProduto().getId() == produto.getId()){
+               item = iv;
                break;
            }
         }      
@@ -62,14 +73,12 @@ public class EntradaController implements ControllerGenerico<LoteEntrada, Long>{
         if(item == null){
             ItemEntrada it = new ItemEntrada();
             it.setProduto(produto);
-            it.setCodigo(produto.getCodigo());
-            it.setNome(produto.getDescricao());
             it.setQuant(1);
-            it.setValor(produto.getPreco());
+            it.setNome(produto.getDescricao());
+            it.setCodigo(produto.getCodigo());
             ItensEntrada.add(it);
         }else{
             item.setQuant(item.getQuant() + 1);
-            item.setValor(produto.getPreco() * item.getQuant());
         }
        
     }
@@ -83,10 +92,27 @@ public class EntradaController implements ControllerGenerico<LoteEntrada, Long>{
         ItensEntrada.remove(item);
     }
     
-    public void CarregarDados(Produto p){
-        
+    public void CarregarDados(){
+        loteEntrada.setData(new Date());
     }
-    
+    public LoteEntrada recuperarUltimaEntrada(){
+        List<LoteEntrada> entradas = this.recuperarTodos();
+       return entradas.get(entradas.size()-1);
+    }  
+    public void FinalizarEntrada(){
+        loteEntrada.setData(new Date());
+        loteEntrada.setItensEntrada(ItensEntrada);
+        this.inserir(loteEntrada);
+        
+        for(ItemEntrada item: ItensEntrada){
+            item.setLoteEntrada(recuperarUltimaEntrada());
+            
+            ItemEntradaController itE = new ItemEntradaController();
+            itE.inserir(item);
+        }
+        this.ItensEntrada = new ArrayList<ItemEntrada>();
+        this.loteEntrada = new LoteEntrada();
+    }
     
     @Override
     public void inserir(LoteEntrada t) {

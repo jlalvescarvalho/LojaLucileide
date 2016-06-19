@@ -8,6 +8,7 @@ package Model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -27,6 +28,9 @@ public class ItemVenda {
     private double ValorItem;
     @ManyToOne
     private Produto produto;
+    @ManyToOne
+    @JoinColumn(name = "Venda_id")
+    private LoteVenda loteVenda;
     
 
     public ItemVenda(int Id, int Item, long Codigo, String Nome, double Valor, double ValorUnitario) {
@@ -96,6 +100,14 @@ public class ItemVenda {
 
     public void setValorUnitario(double ValorUnitario) {
         this.ValorUnitario = ValorUnitario;
+    }
+
+    public LoteVenda getLoteVenda() {
+        return loteVenda;
+    }
+
+    public void setLoteVenda(LoteVenda loteVenda) {
+        this.loteVenda = loteVenda;
     }
     
     

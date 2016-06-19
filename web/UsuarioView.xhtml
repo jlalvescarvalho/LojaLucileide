@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Usuario</title>
+    </h:head>
+    <h:body>
+        <ui:include src="Menu.xhtml"/>
+        <h:form id="formUsuario">
+            <p:panelGrid columns="2">
+                <h:outputText value="Nome:"/>
+                <h:inputText value="#{bUsuario.nome}"/>
+                
+                <h:outputText value="CPF:"/>
+                <h:inputText value="#{bUsuario.cpf}"/>
+                
+                <h:outputText value="E-mail:"/>
+                <h:inputText value="#{bUsuario.e_mail}"/>
+                
+                <h:outputText value="Login:"/>
+                <h:inputText value="#{bUsuario.login}"/>
+                
+                <h:outputText value="Senha:"/>
+                <h:inputText value="#{bUsuario.senha}"/>
+        </p:panelGrid>
+            <p:commandButton value="Cadastrar" action="#{UsuarioBean.inserir(bUsuario.builderUsuario())}"
+    </h:form>
+    </h:body>
+</html>
+

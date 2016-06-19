@@ -5,16 +5,21 @@
  */
 package Model;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
  *
  * @author Luciano
  */
-@Entity(name = "IntemEntrada")
+@Entity(name = "ItemEntrada")
 public class ItemEntrada {
     @Id
     @GeneratedValue
@@ -22,15 +27,16 @@ public class ItemEntrada {
     private long Codigo;
     private String Nome;
     private int Quant;
-    private double Valor;
     @OneToOne
     private Produto produto;
+    @ManyToOne
+    @JoinColumn(name = "Entrada_id")
+    private LoteEntrada loteEntrada;
 
-    public ItemEntrada(int Id, long Codigo, String Nome, double Valor) {
+    public ItemEntrada(int Id, long Codigo, String Nome) {
         this.Id = Id;
         this.Codigo = Codigo;
         this.Nome = Nome;
-        this.Valor = Valor;
     }
     
     @Deprecated
@@ -61,14 +67,6 @@ public class ItemEntrada {
         this.Nome = Nome;
     }
 
-    public double getValor() {
-        return Valor;
-    }
-
-    public void setValor(double Valor) {
-        this.Valor = Valor;
-    }
-
     public Produto getProduto() {
         return produto;
     }
@@ -84,6 +82,15 @@ public class ItemEntrada {
     public void setQuant(int Quant) {
         this.Quant = Quant;
     }
+
+    public LoteEntrada getLoteEntrada() {
+        return loteEntrada;
+    }
+
+    public void setLoteEntrada(LoteEntrada loteEntrada) {
+        this.loteEntrada = loteEntrada;
+    }
+
     
     
 }
