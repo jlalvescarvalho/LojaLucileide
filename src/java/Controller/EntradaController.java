@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.DaoManagerHiber;
+import Model.Estoque;
 import Model.ItemEntrada;
 import Model.LoteEntrada;
 import Model.Produto;
@@ -22,20 +23,20 @@ import org.primefaces.event.FlowEvent;
  */
 @ManagedBean(name = "EntradaBean")
 @SessionScoped
-public class EntradaController implements ControllerGenerico<LoteEntrada, Long>{
+public class EntradaController implements ControllerGenerico<LoteEntrada, Integer> {
 
     private LoteEntrada loteEntrada;
     private List<ItemEntrada> ItensEntrada;
+    private List<Estoque> listaEstoque;
     private ItemEntrada entrada;
-    
-    
+
     public EntradaController() {
         this.loteEntrada = new LoteEntrada();
         this.entrada = new ItemEntrada();
-        this.ItensEntrada = new ArrayList<ItemEntrada>();
+        this.ItensEntrada = new ArrayList<>();
+        this.listaEstoque = new ArrayList<>();
     }
 
-    
     public LoteEntrada getLoteEntrada() {
         return loteEntrada;
     }
@@ -59,61 +60,95 @@ public class EntradaController implements ControllerGenerico<LoteEntrada, Long>{
     public void setEntrada(ItemEntrada entrada) {
         this.entrada = entrada;
     }
-    
 
-  public void Adicionar(Produto produto){
+    public void Adicionar(Produto produto) {
         ItemEntrada item = null;
         for (ItemEntrada iv : ItensEntrada) {
-            if(iv.getProduto().getId() == produto.getId()){
-               item = iv;
-               break;
-           }
-        }      
-        
-        if(item == null){
+            if (iv.getProduto().getId() == produto.getId()) {
+                item = iv;
+                break;
+            }
+        }
+
+        if (item == null) {
             ItemEntrada it = new ItemEntrada();
             it.setProduto(produto);
             it.setQuant(1);
             it.setNome(produto.getDescricao());
             it.setCodigo(produto.getCodigo());
             ItensEntrada.add(it);
-        }else{
+
+        } else {
             item.setQuant(item.getQuant() + 1);
+
         }
-       
+
     }
-   
-   public void RemoverItem(ItemEntrada itemEntrada){
-        ItemEntrada item=null;
-        for(ItemEntrada ie : ItensEntrada){
-            if(ie.getProduto().getId() == itemEntrada.getProduto().getId())
+
+    public void AdicionarAoEstoque(Produto produto) {
+        Estoque et = null;
+        List<Estoque> itensEstocados = DaoManagerHiber.getInstance().recover("from Estoque");
+        for(Estoque e: itensEstocados){
+            if(e.getProduto().getId() == produto.getId()){
+                et = e;
+                break;
+            }
+        }
+        et.setQuant(et.getQuant() + 1);
+        EstoqueController ec = new EstoqueController();
+        ec.alterar(et);
+    }
+
+    public void RemoverItem(ItemEntrada itemEntrada) {
+        ItemEntrada item = null;
+        Estoque e = null;
+        for (ItemEntrada ie : ItensEntrada) {
+            if (ie.getProduto().getId() == itemEntrada.getProduto().getId()) {
                 item = ie;
+            }
         }
         ItensEntrada.remove(item);
+        
+
     }
-    
-    public void CarregarDados(){
+    public void removerEstoque(ItemEntrada itemEntrada){
+        Estoque et = null;
+        List<Estoque> itensEstocados = DaoManagerHiber.getInstance().recover("from Estoque");
+        for(Estoque e: itensEstocados){
+            if(e.getProduto().getId() == itemEntrada.getProduto().getId()){
+                et = e;
+                break;
+            }
+        }
+        et.setQuant(et.getQuant() - 1);
+        EstoqueController ec = new EstoqueController();
+        ec.alterar(et);
+    }
+
+    public void CarregarDados() {
         loteEntrada.setData(new Date());
     }
-    public LoteEntrada recuperarUltimaEntrada(){
+
+    public LoteEntrada recuperarUltimaEntrada() {
         List<LoteEntrada> entradas = this.recuperarTodos();
-       return entradas.get(entradas.size()-1);
-    }  
-    public void FinalizarEntrada(){
+        return entradas.get(entradas.size() - 1);
+    }
+
+    public void FinalizarEntrada() {
         loteEntrada.setData(new Date());
-        loteEntrada.setItensEntrada(ItensEntrada);
         this.inserir(loteEntrada);
         
-        for(ItemEntrada item: ItensEntrada){
+        for (ItemEntrada item : ItensEntrada) {
             item.setLoteEntrada(recuperarUltimaEntrada());
-            
+
             ItemEntradaController itE = new ItemEntradaController();
             itE.inserir(item);
         }
+
         this.ItensEntrada = new ArrayList<ItemEntrada>();
         this.loteEntrada = new LoteEntrada();
     }
-    
+
     @Override
     public void inserir(LoteEntrada t) {
         DaoManagerHiber.getInstance().persist(t);
@@ -130,14 +165,13 @@ public class EntradaController implements ControllerGenerico<LoteEntrada, Long>{
     }
 
     @Override
-    public LoteEntrada recuperar(Long id) {
-        return (LoteEntrada)DaoManagerHiber.getInstance().recover(id);
+    public LoteEntrada recuperar(Integer id) {
+        return (LoteEntrada) DaoManagerHiber.getInstance().recover(id);
     }
 
     @Override
     public void alterar(LoteEntrada t) {
         DaoManagerHiber.getInstance().update(t);
     }
-    
-    
+
 }

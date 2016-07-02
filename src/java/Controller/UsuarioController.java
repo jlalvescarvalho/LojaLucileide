@@ -34,7 +34,7 @@ public class UsuarioController implements ControllerGenerico<Usuario, Long>{
         this.usuario = usuario;
     }
     public Usuario recuperarUser(String login, String senha){
-        List<Usuario> lista = DaoManagerHiber.getInstance().recover("from Usuario where login="+login+" and senha="+senha);
+        List<Usuario> lista = DaoManagerHiber.getInstance().recover("from Usuario where login = "+login+" and senha = "+senha);
         if(lista.size() >= 0){
             return lista.get(0);
         }

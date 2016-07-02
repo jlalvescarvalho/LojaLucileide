@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,15 +33,14 @@ public class Produto{
     private String Marca;
     @Column(name = "Preco")
     private double preco;
-    private int Estoque;
+    
     
 
-    public Produto(long Codigo, String Descricao, String Marca, double preco, int Estoque) {
+    public Produto(long Codigo, String Descricao, String Marca, double preco) {
         this.Codigo = Codigo;
         this.Descricao = Descricao;
         this.Marca = Marca;
         this.preco = preco;
-        this.Estoque = Estoque;
     }
 
     
@@ -86,15 +87,5 @@ public class Produto{
     public void setPreco(double preco) {
         this.preco = preco;
     }
-
-    public int getEstoque() {
-        return Estoque;
-    }
-
-    public void setEstoque(int Estoque) {
-        this.Estoque = Estoque;
-    }
-
     
-   
 }

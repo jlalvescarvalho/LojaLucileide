@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.DaoManagerHiber;
+import Model.Estoque;
 import Model.Produto;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -31,6 +32,15 @@ public class ProdutoController implements ControllerGenerico<Produto, Long>{
     @Override
     public void inserir(Produto p) {
         DaoManagerHiber.getInstance().persist(p);
+        
+        Estoque estoque = new Estoque();
+        EstoqueController ec = new EstoqueController();
+        
+        estoque.setCodigo(p.getCodigo());
+        estoque.setNome(p.getDescricao());
+        estoque.setProduto(p);
+        estoque.setQuant(0);
+        ec.inserir(estoque);
     }
 
     @Override

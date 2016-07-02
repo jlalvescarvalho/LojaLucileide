@@ -21,7 +21,6 @@ public class BuilderProduto {
     private String Descricao;
     private String Marca;
     private double preco;
-    private int Estoque;
 
 
     public BuilderProduto() {
@@ -59,16 +58,7 @@ public class BuilderProduto {
         this.preco = preco;
     }
 
-    public int getEstoque() {
-        return Estoque;
-    }
-
-    public void setEstoque(int Estoque) {
-        this.Estoque = Estoque;
-    }
-
-
     public Produto builderProduto(){ 
-       return new Produto(this.Codigo, this.Descricao, this.Marca, this.preco, this.Estoque);
+       return new Produto(this.Codigo, this.Descricao, this.Marca, this.preco);
 }
 }

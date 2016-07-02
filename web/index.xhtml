@@ -10,46 +10,54 @@
     </h:head>
     <h:body>
 
-        <h:form id="form">
-            <p:commandButton value="Login" oncomplete="PF('dlg').show()"/>
-            <p:commandButton value="Cadastrar" oncomplete="PF('WidCad').show()"/> 
+        <h:form id="formulario">
+            <p:growl id="gro" showDetail="true" life="3000" sticky="false"/>
+            <p:fieldset legend="Logar!">
+                <p:panelGrid columns="2">
+                    <p:commandButton value="Entrar" oncomplete="PF('widDial2').show()"/>
+                    <p:commandButton value="Cadastrar" oncomplete="PF('widCadastro').show()"/>
+                </p:panelGrid>
+            </p:fieldset>
 
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+            <p:dialog id="dial2"  visible="false" resizable="false" modal="true" widgetVar="widDial2">
+                <f:facet name="header">Atenção!!!</f:facet>
+                <p:panelGrid columns="2">
+                    <h:outputText value="Login"/>
+                    <p:inputText value="#{login}"/>
 
-            <p:dialog header="Login" widgetVar="dlg" resizable="false" visible="false" modal="true">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="Usuario" value="Usuario:" />
-                    <p:inputText id="Usuario" value="#{login}"/>
+                    <h:outputText value="Senha"/>
+                    <p:inputText type="password" value="#{senha}"/>
+                </p:panelGrid>
 
-                    <h:outputLabel for="Senha" value="Senha:" />
-                    <p:password id="Senha" value="#{senha}" />
-
-                    <p:commandButton value="Login" action="#{loginBean.realizarLogin(login, senha)}"
-                                     update="growl"/>
-                </h:panelGrid>
+                <p:commandButton value="Entrar" action="#{loginBean.realizarLogin(login, senha)}" update="gro"/>
+                <p:commandButton value="Cancelar" oncomplete="PF('widDial2').hide()"/>
             </p:dialog>
 
-            <p:dialog id="addUsuario" widgetVar="WidCad" resizable="false" modal="true" visible="false">
+            <p:dialog id="dialCadastro" resizable="false" visible="false" modal="true" widgetVar="widCadastro">
+                <f:facet name="header">Cadastrar Usuario!!!</f:facet>
                 <p:panelGrid columns="2">
-                    <h:outputText value="Nome:"/>
-                    <h:inputText value="#{bUsuario.nome}"/>
+
+                    <h:outputText value="Nome"/>
+                    <p:inputText value="#{bUsuario.nome}"/>
 
                     <h:outputText value="CPF:"/>
-                    <h:inputText value="#{bUsuario.cpf}"/>
+                    <p:inputText value="#{bUsuario.cpf}"/>
 
                     <h:outputText value="E-mail:"/>
-                    <h:inputText value="#{bUsuario.e_mail}"/>
+                    <p:inputText value="#{bUsuario.e_mail}"/>
 
-                    <h:outputText value="Login:"/>
-                    <h:inputText value="#{bUsuario.login}"/>
+                    <h:outputText value="Login"/>
+                    <p:inputText value="#{bUsuario.login}"/>
 
-                    <h:outputText value="Senha:"/>
-                    <h:inputText value="#{bUsuario.senha}"/>
+                    <h:outputText value="Senha"/>
+                    <p:inputText type="password" value="#{bUsuario.senha}"/>
+
                 </p:panelGrid>
-                <p:commandButton value="cadastrar" action="#{UsuarioBean.inserir(bUsuario.builderUsuario())}"
-                                 oncomplete="PF('WidCad').hide()"/> 
-                <p:commandButton value="Cancelar" oncomplete="PF('WidCad').hide()"/>
+                <p:commandButton value="Cadastrar" actionListener="#{UsuarioBean.inserir(bUsuario.builderUsuario())}" 
+                                 oncomplete="PF('widCadastro').hide()"/>
+                <p:commandButton value="Cancelar" oncomplete="PF('widCadastro').hide()"/>
             </p:dialog>
+
         </h:form>
 
         <p:graphicImage url="/img/lr.jpg"  width="500px" height="500px"/>

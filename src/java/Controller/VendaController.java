@@ -7,6 +7,7 @@ package Controller;
 
 import Model.Cliente;
 import Model.DaoManagerHiber;
+import Model.Estoque;
 import Model.ItemVenda;
 import Model.LoteVenda;
 import Model.Produto;
@@ -29,12 +30,14 @@ import javax.faces.context.FacesContext;
 public class VendaController implements ControllerGenerico<LoteVenda, Integer>{
 
     private LoteVenda venda;
+    private Estoque estoque;
     private List<ItemVenda> listaItens;
 
     
     public VendaController() {
-       venda = new LoteVenda();
-       listaItens = new ArrayList<ItemVenda>();
+       this.venda = new LoteVenda();
+       this.estoque = new Estoque();
+       this.listaItens = new ArrayList<ItemVenda>();
 
     }
 
@@ -104,7 +107,6 @@ public class VendaController implements ControllerGenerico<LoteVenda, Integer>{
             Cliente c = ClienteController.clienteSelected;
             venda.setData(new Date());
             venda.setCliente(c);
-            venda.setItensVenda(listaItens);
             inserir(venda);
             
             for(ItemVenda item: listaItens){
@@ -113,12 +115,30 @@ public class VendaController implements ControllerGenerico<LoteVenda, Integer>{
                 ItemVendaController itControl = new ItemVendaController();
                 itControl.inserir(item);
             }
-            
-            
+            DescontarDoEstoque(listaItens);
+                        
             this.listaItens = new ArrayList<>();
             this.venda = new LoteVenda();
             this.venda.setValorVenda(0.0);
            
+    }
+    
+    public void DescontarDoEstoque(List<ItemVenda> listaItens){
+        Estoque e = null;
+        
+        for(int i= 0; i < listaItens.size(); i++){
+        List<Estoque> lista =  DaoManagerHiber.getInstance().recover("from Estoque where produto_id = "+listaItens.get(i).getProduto().getId());
+        if(lista.size() >= 0){
+            e = lista.get(0);
+            e.setQuant(e.getQuant() - listaItens.get(i).getQuantidade());
+            EstoqueController ec = new EstoqueController();
+            ec.alterar(e);
+        }
+        
+        
+        }
+        
+        
     }
     
     public List<Produto> listarProdutos(){

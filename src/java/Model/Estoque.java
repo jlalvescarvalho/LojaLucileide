@@ -7,10 +7,11 @@ package Model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -25,18 +26,16 @@ public class Estoque implements Serializable{
     
     private long Codigo;
     private String Nome;
-    private int Quant;
-    @OneToMany
-    private List<Produto> produto;
+    private int Quant = 0;
+    @ManyToOne
+    private Produto produto;
 
-    public Estoque(int Id, long Codigo, String Nome, int Quant) {
-        this.Id = Id;
+    public Estoque(long Codigo, String Nome, int Quant) {
         this.Codigo = Codigo;
         this.Nome = Nome;
         this.Quant = Quant;
     }
-    
-    @Deprecated
+
     public Estoque() {
     }
 
@@ -72,13 +71,12 @@ public class Estoque implements Serializable{
         this.Quant = Quant;
     }
 
-    public List<Produto> getProduto() {
+    public Produto getProduto() {
         return produto;
     }
 
-    public void setProduto(List<Produto> produto) {
+    public void setProduto(Produto produto) {
         this.produto = produto;
     }
-    
     
 }

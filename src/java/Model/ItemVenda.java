@@ -33,8 +33,7 @@ public class ItemVenda {
     private LoteVenda loteVenda;
     
 
-    public ItemVenda(int Id, int Item, long Codigo, String Nome, double Valor, double ValorUnitario) {
-        this.Id = Id;
+    public ItemVenda(long Codigo, String Nome, double Valor, double ValorUnitario) {
         this.Codigo = Codigo;
         this.Descricao = Nome;
         this.ValorItem = Valor;
